@@ -15,3 +15,5 @@ RoxygenNote: 6.0.1
 Imports: 
     nat
 Remotes: jefferis/nat
+URL: https://github.com/jefferis/nat.mouselight
+BugReports: https://github.com/jefferis/nat.mouselight/issues
