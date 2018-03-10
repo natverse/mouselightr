@@ -6,14 +6,13 @@ ml_list_neurons <- function(baseurl="http://ml-neuronbrowser.janelia.org/graphql
       filters = list(
         tracingStructureIds = list(),
         nodeStructureIds = list(),
-        operatorId = NULL,
+        # operatorId = NULL,
         amount = 0L,
         brainAreaIds = list(),
-        arbCenter = list(x = NULL, y = NULL, z = NULL),
-        arbSize = NULL,
+        # arbCenter = list(x = NULL, y = NULL, z = NULL),
+        # arbSize = NULL,
         invert = FALSE,
-        composition = 2L,
-        nonce = "cjekay17p00003i5ynwqyojr8"
+        composition = 2L
       )
     ),
     operationName = "QueryData"
