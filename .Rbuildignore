@@ -1,2 +1,4 @@
 ^nat\.mouselight\.Rproj$
 ^\.Rproj\.user$
+^.*\.har$
+
