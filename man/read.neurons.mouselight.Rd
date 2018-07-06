@@ -7,13 +7,34 @@
 read.neurons.mouselight(x)
 }
 \arguments{
-\item{x}{ids of mouselight neurons}
+\item{x}{ids of tracings of mouselight neurons}
 }
 \value{
 A \code{nat::\link{neuronlist}}
 }
 \description{
 Read one or more mouselight tracings into a neuronlist
+}
+\details{
+Note that mouselight neurons appear to have numerous associated
+  identifiers. Some appear to occur only once per neuron: \itemize{
+
+  \item UUID (called neuron.id) e.g. "780dfeef-e644-4e85-9aad-b31c9957b440"
+
+  \item idString e.g. AA0302
+
+  }
+
+  Others may reflect multiple entitities:
+
+  \itemize{
+
+  \item tracing.id e.g. "b0cfcfe1-9870-4e61-ad3e-cf09b114fc3a"
+
+  \item soma.id e.g. 8abce9c1-479b-43a3-b5f2-080de966f068 }
+
+  There are nearly always two tracing ids per neuron (axon, dendrite). I
+  don't know why there are multiple soma ids.
 }
 \examples{
 \donttest{
