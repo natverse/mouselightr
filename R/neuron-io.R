@@ -33,14 +33,47 @@
 #' library(nat)
 #' plot3d(nn)
 #' }
-read.neurons.mouselight <- function(x) {
+read.neurons.mouselight <- function(x, method=c("native","swc")) {
   pb <- progress::progress_bar$new(total = length(x),
     format = "  downloading [:bar] :percent eta: :eta")
-
   rr=sapply(x, function(y) {pb$tick();fetch_raw_tracings(y)}, simplify = F)
   ul=unlist(lapply(rr, function(x) x$tracings), recursive = F)
   nl=nat::nlapply(ul, process_tracing_list, OmitFailures = T)
   nl
+}
+
+ml_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksize=5L) {
+
+  n=length(x)
+  if(n>chunksize) {
+    pb = progress::progress_bar$new(total = n,
+                                    format = "  :current/:total [:bar]  eta: :eta",
+                                    show_after = 2)
+    nchunks=ceiling(n/chunksize)
+    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(n)]
+    res = by(x,
+             chunks,
+             function(chk, ...) {pb$tick(length(chk));ml_fetch_swc(chk, ...)},
+             progress = FALSE,
+             simplify = FALSE)
+    nl=do.call(c, res)
+    return(nl)
+  }
+
+  b = jsonlite::toJSON(list(ids = x))
+  f=tempfile(fileext = '.zip')
+  on.exit(unlink(f))
+  res = httr::POST(
+    url = ml_url('swc'),
+    body = b,
+    httr::content_type_json(),
+    encode = 'raw',
+    httr::timeout(timeout)
+  )
+  httr::stop_for_status(res)
+  res2=httr::content(res, type = 'application/json')
+  writeBin(jsonlite::base64_dec(res2[[1]]), con = f)
+  nat::read.neurons(f)
 }
 
 # This gets the raw tracing info for one or more ids
@@ -112,4 +145,5 @@ rawdf2neuron <- function(x, ...) {
   ndf[['Label']]=structureIdentifiers$value[match(ndf[['Label']], structureIdentifiers$id)]
   nat::as.neuron(ndf, ...)
 }
+
 
