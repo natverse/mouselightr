@@ -3,7 +3,15 @@
 #' @description Query MouseLight's GraphQL API to retreive information about all of the brain volumes in the MouseLight project. These
 #' brain regions can be sub-volumes of other brain regions. An \code{igraph} object can be generated to explore these dependencies.
 #' @param ... methods passed to \code{ml_fetch}
-#' @return a \code{data.frame]
+#' @return Using \code{ml_brain_graph} will return an object of class \code{igraph} for use with the \code{igraph} R package.
+#' Using \code{ml_brain_region_info}, a \code{data.frame] with the following values is returned:
+#'\itemize{
+#'  \item 	\emph{acronym}	 short name for a brain region
+#'  \item 	\emph{safeName}	 long, easily computer-readble name for a brain region
+#'  \item 	\emph{structureId}	 unique ID for brain region
+#'  \item 	\emph{parentStructureId}	 ID for a larger brain region, to which this brain region belongs
+#'  \item 	\emph{structureIdPath}	 a path of structure IDs to the 'root', the whole brain
+#'}
 #' @seealso \code{\link{mouselight_read_brain}}, \code{\link{mouselight_read_neurons}}
 #' @examples
 #' \dontrun{
@@ -26,7 +34,8 @@
 #' tkplot(g, layout = f)
 #'
 #' }
-#' @references Kunst, Michael, Eva Laurell, Nouwar Mokayes, Anna Kramer, Fumi Kubo, António M. Fernandes, Dominique Förster, Marco Dal Maschio, and Herwig Baier. 2019. “A Cellular-Resolution Atlas of the Larval Zebrafish Brain.” Neuron, May. https://doi.org/10.1016/j.neuron.2019.04.034.
+#' @references Winnubst, Johan, Erhan Bas, Tiago A. Ferreira, Zhuhao Wu, Michael N. Economo, Patrick Edson, Ben J. Arthur, et al. 2019. “Reconstruction of 1,000 Projection Neurons Reveals New Cell Types and Organization of Long-Range Connectivity in the Mouse Brain.” bioRxiv. https://doi.org/10.1101/537233.
+#' Economo, Michael N., Nathan G. Clack, Luke D. Lavis, Charles R. Gerfen, Karel Svoboda, Eugene W. Myers, and Jayaram Chandrashekar. 2016. “A Platform for Brain-Wide Imaging and Reconstruction of Individual Neurons.” eLife 5 (January): e10566.
 #' @export
 #' @rdname ml_brain_info
 ml_brain_region_info <- function(...){
@@ -70,9 +79,6 @@ ml_brain_graph <- function(...){
   relations = subset(relations, from != -1 & to != -1)
   igraph::graph_from_data_frame(relations, directed=TRUE, vertices=vertices)
 }
-
-
-
 
 # hidden
 structureIdentifiers <- function(){
