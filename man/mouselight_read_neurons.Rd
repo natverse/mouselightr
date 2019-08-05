@@ -40,7 +40,7 @@ Note that mouselight neurons appear to have numerous associated
 \donttest{
 ids=c("1ccbc478-88fb-4181-a4de-d0c22ed9738b",
   "3afa5e41-374d-45bc-a546-03f362d93649")
-nn=read.neurons.mouselight(ids)
+nn=mouselight_read_neurons(ids)
 library(nat)
 plot3d(nn)
 }

@@ -11,7 +11,7 @@
 #'   data.frame contains nested data frames with per tracing information.
 #'
 #'   The identifier which you will need to download a neuron with
-#'   \code{\link{read.neurons.mouselight}} is stored in column
+#'   \code{\link{mouselight_read_neurons}} is stored in column
 #'
 #' @export
 #'
