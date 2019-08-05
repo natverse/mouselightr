@@ -87,3 +87,54 @@ ml_list_neurons <- function(simplify=TRUE) {
   names(parsed_res) <- sub("__", "", names(parsed_res))
   parsed_res
 }
+
+ml_list_neurons_simple <- function(soma.info=TRUE) {
+  somaq <- if(isTRUE(soma.info))
+    "soma {\n          id\n          x\n          y\n          z\n          radius\n}\n"
+  else ""
+  query = paste0("query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context)",
+                 " {\n    totalCount\n    queryTime\n    ",
+                 "neurons {\n      id\n      idString}\n",
+                 somaq,
+                 "}\n}\n")
+
+  query="query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context) {\n    totalCount\n    queryTime\n    neurons {\n      id\n      idString}\n}\n}\n"
+  # query="query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context) {\n    totalCount\n    queryTime\n    neurons {\n      id\n      idString \tracings { soma {\n          id\n          x\n          y\n          z\n          radius\n}\n}\n}\n}\n}\n"
+  body = list(
+    operationName = "SearchNeurons",
+    variables = list(context = list(
+      scope = 6L,
+      nonce = "cjyo7xu7k00033h5yrj9jfpoy",
+      predicates = list(
+        list(
+          predicateType = 3L,
+          tracingIdsOrDOIs = list("1"),
+          tracingIdsOrDOIsExactMatch = FALSE,
+          tracingStructureIds = list("68e76074-1777-42b6-bbf9-93a6a5f02fa4"),
+          nodeStructureIds = list("c37953e1-a1e9-4b9a-847e-08d9566ced65"),
+          operatorId = NULL,
+          amount = 0L,
+          brainAreaIds = list(),
+          arbCenter = list(x = NULL, y = NULL, z = NULL),
+          arbSize = NULL,
+          invert = FALSE,
+          composition = 3L
+        )
+      )
+    )),
+    query=query
+  )
+
+  bodyj=jsonlite::toJSON(body, null = 'null', auto_unbox = T)
+  res=httr::POST(url = ml_url('graphql'), body = bodyj, httr::content_type_json(), encode='raw')
+  httr::stop_for_status(res)
+  raw_res=httr::content(res, as='text', type='application/json', encoding = 'utf8')
+  parsed_res=jsonlite::fromJSON(raw_res, simplifyVector = T)
+  parsed_res=parsed_res$data[[1]]
+  if(is.null(parsed_res$neurons))
+    stop("invalid return structure!")
+  if(!isTRUE(nneurons <- parsed_res$totalCount>0))
+    stop("No neurons returned!")
+
+  parsed_res$neurons
+}
