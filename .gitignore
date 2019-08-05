@@ -6,7 +6,7 @@ inst/doc
 *.swc
 *.nrrd
 *.zip
-*.swc
+*.obj
 packrat/lib*/
 .Rproj.user
 .Rhistory
