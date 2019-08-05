@@ -1,11 +1,11 @@
-Package: mouselightr
+Package: nat.mouselight
 Version: 0.0.0.9000
 Title: Bridge HHMI Janelia MouseLight Database and nat R Package
 Description: MouseLight provide an interactive 3D browser at 
     http://ml-neuronbrowser.janelia.org/. This package allows neurons from that
     dataset to be downloaded and manipulated offline, providing a bridge to the
     nat (NeuroAnatomy Toolbox) suite of R packages.
-Authors@R: c(person("Alexander", "Bates", email = "alexander.shakeel.bates@gmail.com", role = c("aut", "cre"), 
+Authors@R: c(person("Alexander", "Bates", email = "alexander.shakeel.bates@gmail.com", role = c("aut"), 
     comment = c(ORCID = "0000-0002-1195-0445")),
     person("Gregory","Jefferis", email="jefferis@gmail.com", 
     role = c("aut", "cre"), comment = c(ORCID = "0000-0002-0587-9355")))
@@ -13,7 +13,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Imports: 
     nat,
     httr,
