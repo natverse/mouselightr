@@ -4,7 +4,7 @@
 #' brain regions can be sub-volumes of other brain regions. An \code{igraph} object can be generated to explore these dependencies.
 #' @param ... methods passed to \code{mouselight_fetch}
 #' @return Using \code{mouselight_brain_graph} will return an object of class \code{igraph} for use with the \code{igraph} R package.
-#' Using \code{mouselight_brain_region_info}, a \code{data.frame] with the following values is returned:
+#' Using \code{mouselight_brain_region_info}, a \code{data.frame} with the following values is returned:
 #'\itemize{
 #'  \item 	\emph{acronym}	 short name for a brain region
 #'  \item 	\emph{safeName}	 long, easily computer-readble name for a brain region
