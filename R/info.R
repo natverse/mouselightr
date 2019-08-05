@@ -1,4 +1,4 @@
-#' @title Get information about mouse brain compartments in the MouseLight project
+#' @title Get information about the mouse brain compartments in the MouseLight project
 #'
 #' @description Query MouseLight's GraphQL API to retreive information about all of the brain volumes in the MouseLight project. These
 #' brain regions can be sub-volumes of other brain regions. An \code{igraph} object can be generated to explore these dependencies.
@@ -34,8 +34,7 @@
 #' tkplot(g, layout = f)
 #'
 #' }
-#' @references Winnubst, Johan, Erhan Bas, Tiago A. Ferreira, Zhuhao Wu, Michael N. Economo, Patrick Edson, Ben J. Arthur, et al. 2019. “Reconstruction of 1,000 Projection Neurons Reveals New Cell Types and Organization of Long-Range Connectivity in the Mouse Brain.” bioRxiv. https://doi.org/10.1101/537233.
-#' Economo, Michael N., Nathan G. Clack, Luke D. Lavis, Charles R. Gerfen, Karel Svoboda, Eugene W. Myers, and Jayaram Chandrashekar. 2016. “A Platform for Brain-Wide Imaging and Reconstruction of Individual Neurons.” eLife 5 (January): e10566.
+#' @inherit ml_read_brain references
 #' @export
 #' @rdname ml_brain_info
 ml_brain_region_info <- function(...){
@@ -80,6 +79,44 @@ ml_brain_graph <- function(...){
   igraph::graph_from_data_frame(relations, directed=TRUE, vertices=vertices)
 }
 
+#' @title Get information about the MouseLight project's GraphQL API
+#'
+#' @description See the API version and the number of neurons hosted by the project.
+#' @param ... methods passed to \code{ml_fetch}
+#' @return a named vector of values
+#' @seealso \code{\link{mouselight_read_brain}}, \code{\link{mouselight_read_neurons}}
+#' @examples
+#' \dontrun{
+#' ## First we need to download all of the neurons
+#' mouselight_api(...)
+#'
+#' }
+#' @inherit ml_read_brain references
+#' @export
+#' @rdname ml_info
+mouselight_api <- function(...){
+  body = list(
+    query = "{\n
+    systemSettings {\n
+    apiVersion\n
+    apiRelease\n
+    neuronCount\n
+    }\n
+    }",
+    variables = list(),
+    operationName = NULL
+  )
+  bodyj=jsonlite::toJSON(body, null = 'null', auto_unbox = T)
+  res = ml_fetch(path = "graphql",
+                 body = bodyj,
+                 parse.json = TRUE,
+                 simplifyVector=FALSE,
+                 include_headers = FALSE,
+                 config = httr::content_type_json(),
+                 encode='raw')
+  unlist(res$data$systemSettings)
+}
+
 # hidden
 structureIdentifiers <- function(){
   body = list(
@@ -89,7 +126,7 @@ structureIdentifiers <- function(){
     name\n
     value\n
     }\n
-    }",
+  }",
     variables = list(),
     operationName = NULL
   )
@@ -107,4 +144,4 @@ structureIdentifiers <- function(){
   df$`__typename` = "StructureIdentifier"
   rownames(df) = df$structureId
   df
-}
+  }
