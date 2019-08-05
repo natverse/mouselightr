@@ -1,5 +1,5 @@
 # hidden
-ml_fetch <- function(path,
+mouselight_fetch <- function(path,
                     body = NULL,
                     parse.json = TRUE,
                     simplifyVector=FALSE,
@@ -7,15 +7,15 @@ ml_fetch <- function(path,
   path = gsub("\\/$|^\\/","",path)
   req <-
     if (is.null(body)) {
-      httr::GET(url = file.path(ml_url(path), path, fsep = "/"), ...)
+      httr::GET(url = file.path(mouselight_url(path), path, fsep = "/"), ...)
     }else {
-      httr::POST(url = file.path(ml_url(path), path, fsep = "/"),
+      httr::POST(url = file.path(mouselight_url(path), path, fsep = "/"),
                  body = body, ...)
     }
   httr::stop_for_status(req)
   if (parse.json) {
-    parsed = ml_parse_json(req, simplifyVector = simplifyVector, raw = FALSE)
-    ml_error_check(parsed)
+    parsed = mouselight_parse_json(req, simplifyVector = simplifyVector, raw = FALSE)
+    mouselight_error_check(parsed)
     if (include_headers) {
       fields_to_include = c("url", "headers")
       attributes(parsed) = c(attributes(parsed), req[fields_to_include])
@@ -26,7 +26,7 @@ ml_fetch <- function(path,
 }
 
 # hidden
-ml_parse_json <- function (req, simplifyVector = FALSE, raw = TRUE, ...) {
+mouselight_parse_json <- function (req, simplifyVector = FALSE, raw = TRUE, ...) {
   if(raw){
     text <- rawToChar(req$content)
   }else{
@@ -44,7 +44,7 @@ ml_parse_json <- function (req, simplifyVector = FALSE, raw = TRUE, ...) {
 }
 
 # hidden
-ml_error_check <- function(x){
+mouselight_error_check <- function(x){
     err_fields = c("error", "message")
     if (sum(names(x) %in% err_fields)>1) {
       stop(x$error, ": ", x$message)

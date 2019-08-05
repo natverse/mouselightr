@@ -33,7 +33,7 @@
 #' library(nat)
 #' plot3d(nn)
 #' }
-read.neurons.mouselight <- function(x, method=c("native","swc")) {
+mouselight_read_neurons <- function(x, method=c("native","swc")) {
   pb <- progress::progress_bar$new(total = length(x),
     format = "  downloading [:bar] :percent eta: :eta")
   rr=sapply(x, function(y) {pb$tick();fetch_raw_tracings(y)}, simplify = F)
@@ -42,7 +42,7 @@ read.neurons.mouselight <- function(x, method=c("native","swc")) {
   nl
 }
 
-ml_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksize=5L) {
+mouselight_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksize=5L) {
   n=length(x)
   if(n>chunksize) {
     pb = progress::progress_bar$new(total = n,
@@ -52,7 +52,7 @@ ml_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksize=5L) {
     chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(n)]
     res = by(x,
              chunks,
-             function(chk, ...) {pb$tick(length(chk));ml_fetch_swc(chk, ...)},
+             function(chk, ...) {pb$tick(length(chk));mouselight_fetch_swc(chk, ...)},
              progress = FALSE,
              simplify = FALSE)
     nl=do.call(c, res)
@@ -62,7 +62,7 @@ ml_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksize=5L) {
   f=tempfile(fileext = '.zip')
   on.exit(unlink(f))
   res = httr::POST(
-    url = ml_url('swc'),
+    url = mouselight_url('swc'),
     body = b,
     httr::content_type_json(),
     encode = 'raw',
@@ -80,7 +80,7 @@ fetch_raw_tracings <- function(ids, baseurl='http://ml-neuronbrowser.janelia.org
   # nb auto_unbox must be F for length one queries
   body=jsonlite::toJSON(list(ids=ids), auto_unbox = F)
   res = httr::POST(
-    url = ml_url('tracings'),
+    url = mouselight_url('tracings'),
     body = body,
     encode = 'raw',
     httr::content_type_json())

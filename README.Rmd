@@ -43,7 +43,7 @@ Now we can have a look at what is available, here are some of the key functions.
 
 ```{r help, eval = FALSE}
 # And how can I download and read neurons?
-?mouselightr_read_saved_neurons()
+?mouselightr_read_neurons()
 
 # Get a 3D neuropil-subdivided brain model
 ?mouselightr_read_brain # Get 3D neuropil-subdivided brain models for those brainspaces
@@ -56,7 +56,33 @@ Let's also have a look at an example pulling neurons and brain meshes from the [
 ![mouselight_neuropils](https://raw.githubusercontent.com/natverse/mouselightr/master/inst/images/mouselight_neuropils.png)
 
 ```{r insectbraindb.example, eval = FALSE}
-## Lets have a look at these neuropils!
+## First we can quickly just plot the outer mesh for the brain
+outline = mouselight_read_brain(type = "outline")
+plot3d(outline, col = "pink", alpha = 0.3)
+
+## This is cool, but maybe what we really want are its sub-divisions.
+mousebrain = mouselight_read_brain(type = "brain_areas")
+clear3d()
+plot3d(mousebrain)
+### This takes a long time the first time you call this function.
+### By default .obj files for these brain regions are saved at the location
+### of this package, then following the path inst/exdata/obj and will be
+### read directly from there in future.
+
+## What brain regions are on offer?
+print(mousebrain$neuropil_full_names)
+
+## Or if we want more information, we can get it like this:
+mbr = mouselight_brain_region_info()
+View(mouselight_brain_region_info)
+
+## Perhaps we want to plot just the amygdala?
+### To do this we can do
+amygdala.codes = mousebrain$RegionList[grepl("amygdala",
+mousebrain$neuropil_full_names,
+ignore.case = TRUE)]
+plot3d(outline, col = "pink", alpha = 0.1)
+plot3d(subset(mousebrain, amygdala.codes), alpha = 0.5)
 
 
 ```

@@ -8,7 +8,7 @@ changenull <- function(x, to = ""){
 }
 
 # hidden
-ml_progress <- function (x, max = 100, message = "querying ms") {
+mouselight_progress <- function (x, max = 100, message = "querying ms") {
   percent <- x / max * 100
   cat(sprintf('\r|%-50s| ~%d%% %s',
               paste(rep('+', percent / 2), collapse = ''),
@@ -25,7 +25,7 @@ FirstLower <- function(x) {
 }
 
 # hidden
-ml_url <- function(...) {
+mouselight_url <- function(...) {
   baseurl=getOption("nat.mouselight.url", "http://ml-neuronbrowser.janelia.org")
   do.call(file.path, c(baseurl, list(...), fsep = "/"))
 }

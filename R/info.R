@@ -2,9 +2,9 @@
 #'
 #' @description Query MouseLight's GraphQL API to retreive information about all of the brain volumes in the MouseLight project. These
 #' brain regions can be sub-volumes of other brain regions. An \code{igraph} object can be generated to explore these dependencies.
-#' @param ... methods passed to \code{ml_fetch}
-#' @return Using \code{ml_brain_graph} will return an object of class \code{igraph} for use with the \code{igraph} R package.
-#' Using \code{ml_brain_region_info}, a \code{data.frame] with the following values is returned:
+#' @param ... methods passed to \code{mouselight_fetch}
+#' @return Using \code{mouselight_brain_graph} will return an object of class \code{igraph} for use with the \code{igraph} R package.
+#' Using \code{mouselight_brain_region_info}, a \code{data.frame] with the following values is returned:
 #'\itemize{
 #'  \item 	\emph{acronym}	 short name for a brain region
 #'  \item 	\emph{safeName}	 long, easily computer-readble name for a brain region
@@ -16,14 +16,14 @@
 #' @examples
 #' \dontrun{
 #' ## First we need to download all of the neurons
-#' mbr = ml_brain_region_info()
+#' mbr = mouselight_brain_region_info()
 #'
 #' ## Leet's have a look at this data
-#' View(ml_brain_region_info)
+#' View(mouselight_brain_region_info)
 #'
 #' ## Some brain regions are actually a subcompartment of others in this set.
 #' ### Hmm, so what would be good is if we could see those correspondences
-#' g = ml_brain_graph()
+#' g = mouselight_brain_graph()
 #'
 #' ## Let's plot these i na way we can easily see!
 #' library(igraph)
@@ -34,10 +34,10 @@
 #' tkplot(g, layout = f)
 #'
 #' }
-#' @inherit ml_read_brain references
+#' @inherit mouselight_read_brain references
 #' @export
-#' @rdname ml_brain_info
-ml_brain_region_info <- function(...){
+#' @rdname mouselight_brain_info
+mouselight_brain_region_info <- function(...){
   body = list(
     query = "{\n
     brainAreas {\n
@@ -52,7 +52,7 @@ ml_brain_region_info <- function(...){
     operationName = NULL
   )
   bodyj=jsonlite::toJSON(body, null = 'null', auto_unbox = T)
-  res = ml_fetch(path = "graphql",
+  res = mouselight_fetch(path = "graphql",
                  body = bodyj,
                  parse.json = TRUE,
                  simplifyVector=FALSE,
@@ -67,9 +67,9 @@ ml_brain_region_info <- function(...){
 }
 
 #' @export
-#' @rdname ml_brain_info
-ml_brain_graph <- function(...){
-  bi = ml_brain_region_info(...)
+#' @rdname mouselight_brain_info
+mouselight_brain_graph <- function(...){
+  bi = mouselight_brain_region_info(...)
   bi = bi[!apply(bi, 1, function(x) sum(is.na(x))>0),]
   vertices <- data.frame(name = bi$structureId,
                          label= bi$acronym)
@@ -82,7 +82,7 @@ ml_brain_graph <- function(...){
 #' @title Get information about the MouseLight project's GraphQL API
 #'
 #' @description See the API version and the number of neurons hosted by the project.
-#' @param ... methods passed to \code{ml_fetch}
+#' @param ... methods passed to \code{mouselight_fetch}
 #' @return a named vector of values
 #' @seealso \code{\link{mouselight_read_brain}}, \code{\link{mouselight_read_neurons}}
 #' @examples
@@ -91,9 +91,9 @@ ml_brain_graph <- function(...){
 #' mouselight_api(...)
 #'
 #' }
-#' @inherit ml_read_brain references
+#' @inherit mouselight_read_brain references
 #' @export
-#' @rdname ml_info
+#' @rdname mouselight_info
 mouselight_api <- function(...){
   body = list(
     query = "{\n
@@ -107,7 +107,7 @@ mouselight_api <- function(...){
     operationName = NULL
   )
   bodyj=jsonlite::toJSON(body, null = 'null', auto_unbox = T)
-  res = ml_fetch(path = "graphql",
+  res = mouselight_fetch(path = "graphql",
                  body = bodyj,
                  parse.json = TRUE,
                  simplifyVector=FALSE,
@@ -131,7 +131,7 @@ structureIdentifiers <- function(){
     operationName = NULL
   )
   bodyj=jsonlite::toJSON(body, null = 'null', auto_unbox = T)
-  res = ml_fetch(path = "graphql",
+  res = mouselight_fetch(path = "graphql",
                  body = bodyj,
                  parse.json = TRUE,
                  simplifyVector=FALSE,
