@@ -33,7 +33,7 @@
 #' library(nat)
 #' plot3d(nn)
 #' }
-read.neurons.mouselight <- function(x, method=c("native","swc"), ...) {
+mouselight_read_neurons <- function(x, method=c("native","swc"), ...) {
   method=match.arg(method)
   if(method=='swc')
     return(ml_fetch_swc(x, ...))
@@ -45,8 +45,7 @@ read.neurons.mouselight <- function(x, method=c("native","swc"), ...) {
   nl
 }
 
-ml_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksize=5L) {
-
+mouselight_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksize=5L) {
   n=length(x)
   if(n>chunksize) {
     pb = progress::progress_bar$new(total = n,
@@ -56,18 +55,17 @@ ml_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksize=5L) {
     chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(n)]
     res = by(x,
              chunks,
-             function(chk, ...) {pb$tick(length(chk));ml_fetch_swc(chk, ...)},
+             function(chk, ...) {pb$tick(length(chk));mouselight_fetch_swc(chk, ...)},
              progress = FALSE,
              simplify = FALSE)
     nl=do.call(c, res)
     return(nl)
   }
-
   b = jsonlite::toJSON(list(ids = x))
   f=tempfile(fileext = '.zip')
   on.exit(unlink(f))
   res = httr::POST(
-    url = ml_url('swc'),
+    url = mouselight_url('swc'),
     body = b,
     httr::content_type_json(),
     encode = 'raw',
@@ -85,7 +83,7 @@ fetch_raw_tracings <- function(ids, baseurl='http://ml-neuronbrowser.janelia.org
   # nb auto_unbox must be F for length one queries
   body=jsonlite::toJSON(list(ids=ids), auto_unbox = F)
   res = httr::POST(
-    url = ml_url('tracings'),
+    url = mouselight_url('tracings'),
     body = body,
     encode = 'raw',
     httr::content_type_json())
@@ -105,38 +103,8 @@ process_tracing_list <- function(x) {
   rawdf2neuron(bb, id=x$id)
 }
 
-structureIdentifiers <-
-  data.frame(
-    stringsAsFactors = FALSE,
-    id = c(
-      "9b2cf056-1fba-468f-a877-04169dd9f708",
-      "2a8efa78-1067-4ce8-8e4f-cfcf9cf7d315",
-      "a1df739e-f4a8-4b88-9a25-2cd6b9a7563c",
-      "a3dec6a1-7484-45a7-bc05-cf3d6014c44d",
-      "c37953e1-a1e9-4b9a-847e-08d9566ced65",
-      "d8eb210f-65fe-4983-bdcb-e34de5ca2e13",
-      "6afcafa5-ec7f-4899-8941-3e1f812682ce"
-    ),
-    name = c(
-      "path",
-      "branch point",
-      "axon",
-      "apical dendrite",
-      "end point",
-      "(basal) dendrite",
-      "soma"
-    ),
-    value = c(0L, 5L, 2L, 4L, 6L, 3L, 1L),
-    `__typename` = c(
-      "StructureIdentifier",
-      "StructureIdentifier",
-      "StructureIdentifier",
-      "StructureIdentifier",
-      "StructureIdentifier",
-      "StructureIdentifier",
-      "StructureIdentifier"
-    )
-  )
+# hidden
+structureIdentifiers <- structureIdentifiers()
 
 # convert the pseudo SWC format returned by mouselight into what we need
 rawdf2neuron <- function(x, ...) {
