@@ -24,21 +24,28 @@
 ml_list_neurons <- function(simplify=TRUE) {
 
   body = list(
-    query = "query QueryData($filters: [FilterInput!]) {\n  queryData(filters: $filters) {\n    totalCount\n    queryTime\n    nonce\n    error {\n      name\n      message\n      __typename\n    }\n    neurons {\n      id\n      idString\n      brainArea {\n        id\n        acronym\n        __typename\n      }\n      tracings {\n        id\n        tracingStructure {\n          id\n          name\n          value\n          __typename\n        }\n        soma {\n          id\n          x\n          y\n          z\n          radius\n          parentNumber\n          sampleNumber\n          brainAreaId\n          structureIdentifierId\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n",
-    variables = list(
-      filters = list(
-        tracingStructureIds = list(),
-        nodeStructureIds = list(),
-        # operatorId = NULL,
-        amount = 0L,
-        brainAreaIds = list(),
-        # arbCenter = list(x = NULL, y = NULL, z = NULL),
-        # arbSize = NULL,
-        invert = FALSE,
-        composition = 2L
+    operationName = "SearchNeurons",
+    variables = list(context = list(
+      scope = 6L,
+      nonce = "cjyo7xu7k00033h5yrj9jfpoy",
+      predicates = list(
+        list(
+          predicateType = 3L,
+          tracingIdsOrDOIs = list("1"),
+          tracingIdsOrDOIsExactMatch = FALSE,
+          tracingStructureIds = list("68e76074-1777-42b6-bbf9-93a6a5f02fa4"),
+          nodeStructureIds = list("c37953e1-a1e9-4b9a-847e-08d9566ced65"),
+          operatorId = NULL,
+          amount = 0L,
+          brainAreaIds = list(),
+          arbCenter = list(x = NULL, y = NULL, z = NULL),
+          arbSize = NULL,
+          invert = FALSE,
+          composition = 3L
+        )
       )
-    ),
-    operationName = "QueryData"
+    )),
+    query= "query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context) {\n    totalCount\n    queryTime\n    nonce\n    \n    neurons {\n      id\n      idString\n      tracings {\n        id\n        tracingStructure {\n          id\n          name\n          value\n          __typename\n        }\n        soma {\n          id\n          x\n          y\n          z\n          radius\n          parentNumber\n          sampleNumber\n          brainAreaId\n          structureIdentifierId\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"
   )
 
   bodyj=jsonlite::toJSON(body, null = 'null', auto_unbox = T)
@@ -46,11 +53,15 @@ ml_list_neurons <- function(simplify=TRUE) {
   httr::stop_for_status(res)
   raw_res=httr::content(res, as='text', type='application/json', encoding = 'utf8')
   parsed_res=jsonlite::fromJSON(raw_res, simplifyVector = T)
-  parsed_res=parsed_res$data$queryData$neurons
-
+  parsed_res=parsed_res$data[[1]]
+  if(is.null(parsed_res$neurons))
+    stop("invalid return structure!")
+  if(!isTRUE(nneurons <- parsed_res$totalCount>0))
+    stop("No neurons returned!")
+  parsed_res <- parsed_res$neurons
   if(simplify) {
     stopifnot(isTRUE(all(
-      names(parsed_res) == c("id", "idString", "brainArea", "tracings", "__typename")
+      names(parsed_res) %in% c("id", "idString", "brainArea", "tracings", "__typename", "sample")
     )))
 
     # check soma/tracingStructure columns have same number of rows
@@ -59,7 +70,7 @@ ml_list_neurons <- function(simplify=TRUE) {
            "Unexpected mismatch between tracingStructure and soma elements of tracings column!")
 
     # remove nested tracings data.frames
-    neurondf=parsed_res[-4]
+    neurondf=parsed_res[names(parsed_res)!='tracings']
     # flatten brainArea data.frame
     neurondf=jsonlite::flatten(neurondf)
     # first id is for the neuron (which usually has 2 associated tracings)
