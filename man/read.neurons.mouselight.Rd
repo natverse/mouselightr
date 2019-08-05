@@ -4,7 +4,7 @@
 \alias{read.neurons.mouselight}
 \title{Read one or more mouselight tracings into a neuronlist}
 \usage{
-read.neurons.mouselight(x)
+read.neurons.mouselight(x, method = c("native", "swc"))
 }
 \arguments{
 \item{x}{ids of tracings of mouselight neurons}
