@@ -14,10 +14,13 @@ Encoding: UTF-8
 LazyData: true
 ByteCompile: true
 RoxygenNote: 6.1.1
+Depends:
+    jsonlite,
+    readobj
 Imports: 
     nat,
     httr,
-    jsonlite,
+    igraph,
     dplyr,
     progress
 Remotes: jefferis/nat

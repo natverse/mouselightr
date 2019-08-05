@@ -3,8 +3,7 @@
 #' @description Save  the brain mesh and its brain regions from the MouseLight project
 #' @param type whether just to retreive the outer brain mesh, or the brain constituent neuropils
 #' @param progress logical, toggle progress bar
-#' @param save.path if you do not want to save at \code{package_location/inst/exdata} then specify a location
-#' @param Force logical, whether or not to overwrite .obj files stored at \code{save.path} or the default location
+#' @param Force logical, whether or not to overwrite .obj files stored in a temporary directory
 #' @param ... methods passed to \code{mouselight_fetch}
 #' @return a \code{nat} package \code{\link[nat]{hxsurf}} object, which mimics the Amira surface format, replete with metadata that can be
 #' accessed using \code{$}
@@ -19,10 +18,7 @@
 #' mousebrain = mouselight_read_brain(type = "brain_areas")
 #' clear3d()
 #' plot3d(mousebrain)
-#' ### This takes a long time the first time you call this function.
-#' ### By default .obj files for these brain regions are saved at the location
-#' ### of this package, then following the path inst/exdata/obj and will be
-#' ### read directly from there in future.
+#' ### This takes a long time the first time you call this function per session
 #'
 #' ## What brain regions are on offer?
 #' print(mousebrain$neuropil_full_names)
@@ -46,17 +42,9 @@
 #' @rdname mouselight_read_brain
 mouselight_read_brain <- function(type = c("outline", "brain_areas"),
                           progress  = TRUE,
-                          save.path = NULL,
                           Force  = FALSE){
   type = match.arg(type)
-  # save path
-  if(is.null(save.path)){
-    save.path = path.package("mouselightr", quiet = FALSE)
-  }
-  package.path.data = paste(save.path,"inst/exdata/obj",sep="/")
-  if(!dir.exists(package.path.data)){
-    dir.create(package.path.data, recursive = TRUE)
-  }
+  temp = tempdir()
   body = list(
     query = "{\n
     brainAreas {\n
@@ -80,16 +68,16 @@ mouselight_read_brain <- function(type = c("outline", "brain_areas"),
   df = as.data.frame(t(apply(df, 1, unlist)))
   df = as.data.frame(df)
   if(type=="outline"){
-    df = subset(df, safeName == "Whole Brain")
+    df = df[df$safeName == "Whole Brain",]
   }else{
-    df = subset(df, safeName != "Whole Brain")
+    df = df[df$safeName != "Whole Brain",]
   }
   # Now read .obj files
   urls = mouselight_url("static/allen/obj",df$geometryFile)
   saved.files = success = c()
   for (url in 1:length(urls)){
     message = paste("downloading", df$safeName[url],".obj file", sep = " ")
-    localfile = paste0(package.path.data,"/",df$geometryFile[url])
+    localfile = paste0(temp,"/",df$geometryFile[url])
     if(!file.exists(localfile) | Force){
       t = suppressWarnings (try( utils::download.file(urls[url], localfile, mode='wb', quiet = TRUE), silent = TRUE))
       if(inherits(t,'try-error')) {

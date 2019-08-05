@@ -21,6 +21,8 @@
 #'   don't know why there are multiple soma ids.
 #'
 #' @param x ids of tracings of mouselight neurons
+#' @param method whterh to read from MouseLight's own raw tracing format or stored SWC files
+#' @param ... methods sent to \code{mouselight_fetch_swc}
 #'
 #' @return A \code{nat::\link{neuronlist}}
 #' @export

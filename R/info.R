@@ -75,7 +75,7 @@ mouselight_brain_graph <- function(...){
                          label= bi$acronym)
   relations <- data.frame(from = bi$parentStructureId,
                           to= bi$structureId)
-  relations = subset(relations, from != -1 & to != -1)
+  relations = relations[relations$from != -1 & relations$to != -1,]
   igraph::graph_from_data_frame(relations, directed=TRUE, vertices=vertices)
 }
 

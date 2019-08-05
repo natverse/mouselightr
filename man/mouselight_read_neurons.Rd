@@ -8,6 +8,10 @@ mouselight_read_neurons(x, method = c("native", "swc"), ...)
 }
 \arguments{
 \item{x}{ids of tracings of mouselight neurons}
+
+\item{method}{whterh to read from MouseLight's own raw tracing format or stored SWC files}
+
+\item{...}{methods sent to \code{mouselight_fetch_swc}}
 }
 \value{
 A \code{nat::\link{neuronlist}}

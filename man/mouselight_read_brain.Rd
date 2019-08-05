@@ -5,16 +5,14 @@
 \title{Read the brain mesh and its brain regions from the MouseLight project}
 \usage{
 mouselight_read_brain(type = c("outline", "brain_areas"),
-  progress = TRUE, save.path = NULL, Force = FALSE)
+  progress = TRUE, Force = FALSE)
 }
 \arguments{
 \item{type}{whether just to retreive the outer brain mesh, or the brain constituent neuropils}
 
 \item{progress}{logical, toggle progress bar}
 
-\item{save.path}{if you do not want to save at \code{package_location/inst/exdata} then specify a location}
-
-\item{Force}{logical, whether or not to overwrite .obj files stored at \code{save.path} or the default location}
+\item{Force}{logical, whether or not to overwrite .obj files stored in a temporary directory}
 
 \item{...}{methods passed to \code{mouselight_fetch}}
 }
@@ -35,10 +33,7 @@ plot3d(outline, col = "pink", alpha = 0.3)
 mousebrain = mouselight_read_brain(type = "brain_areas")
 clear3d()
 plot3d(mousebrain)
-### This takes a long time the first time you call this function.
-### By default .obj files for these brain regions are saved at the location
-### of this package, then following the path inst/exdata/obj and will be
-### read directly from there in future.
+### This takes a long time the first time you call this function per session
 
 ## What brain regions are on offer?
 print(mousebrain$neuropil_full_names)
