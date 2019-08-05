@@ -88,7 +88,7 @@ mouselight_list_neurons <- function(simplify=TRUE) {
   parsed_res
 }
 
-ml_list_neurons_simple <- function(soma.info=TRUE) {
+mouselight_list_neurons_simple <- function(soma.info=TRUE) {
   somaq <- if(isTRUE(soma.info))
     "soma {\n          id\n          x\n          y\n          z\n          radius\n}\n"
   else ""
@@ -126,7 +126,7 @@ ml_list_neurons_simple <- function(soma.info=TRUE) {
   )
 
   bodyj=jsonlite::toJSON(body, null = 'null', auto_unbox = T)
-  res=httr::POST(url = ml_url('graphql'), body = bodyj, httr::content_type_json(), encode='raw')
+  res=httr::POST(url = mouselight_url('graphql'), body = bodyj, httr::content_type_json(), encode='raw')
   httr::stop_for_status(res)
   raw_res=httr::content(res, as='text', type='application/json', encoding = 'utf8')
   parsed_res=jsonlite::fromJSON(raw_res, simplifyVector = T)

@@ -36,7 +36,7 @@
 mouselight_read_neurons <- function(x, method=c("native","swc"), ...) {
   method=match.arg(method)
   if(method=='swc')
-    return(ml_fetch_swc(x, ...))
+    return(mouselight_fetch_swc(x, ...))
   pb <- progress::progress_bar$new(total = length(x),
     format = "  downloading [:bar] :percent eta: :eta")
   rr=sapply(x, function(y) {pb$tick();fetch_raw_tracings(y)}, simplify = F)
