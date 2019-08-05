@@ -104,7 +104,7 @@ process_tracing_list <- function(x) {
 }
 
 # hidden
-structureIdentifiers <- structureIdentifiers()
+delayedAssign('.structureIdentifiers', structureIdentifiers())
 
 # convert the pseudo SWC format returned by mouselight into what we need
 rawdf2neuron <- function(x, ...) {
@@ -113,7 +113,7 @@ rawdf2neuron <- function(x, ...) {
   ndf=x[selcols]
   names(ndf)=newcols
   ndf[['W']]=ndf[['W']]*2
-  ndf[['Label']]=structureIdentifiers$value[match(ndf[['Label']], structureIdentifiers$id)]
+  ndf[['Label']]=.structureIdentifiers$value[match(ndf[['Label']], .structureIdentifiers$id)]
   nat::as.neuron(ndf, ...)
 }
 
