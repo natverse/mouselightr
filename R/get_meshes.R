@@ -5,18 +5,18 @@
 #' @param progress logical, toggle progress bar
 #' @param save.path if you do not want to save at \code{package_location/inst/exdata} then specify a location
 #' @param Force logical, whether or not to overwrite .obj files stored at \code{save.path} or the default location
-#' @param ... methods passed to \code{mouselight__fetch}
+#' @param ... methods passed to \code{mouselight_fetch}
 #' @return a \code{nat} package \code{\link[nat]{hxsurf}} object, which mimics the Amira surface format, replete with metadata that can be
 #' accessed using \code{$}
-#' @seealso \code{\link{mouselight_read_brain}}, \code{\link{mouselight__brain_region_info}}
+#' @seealso \code{\link{mouselight_read_brain}}, \code{\link{mouselight_brain_region_info}}
 #' @examples
 #' \dontrun{
 #' ## First we can quickly just plot the outer mesh for the brain
-#' outline = mouselight__read_brain(type = "outline")
+#' outline = mouselight_read_brain(type = "outline")
 #' plot3d(outline, col = "pink", alpha = 0.3)
 #'
 #' ## This is cool, but maybe what we really want are its sub-divisions.
-#' mousebrain = mouselight__read_brain(type = "brain_areas")
+#' mousebrain = mouselight_read_brain(type = "brain_areas")
 #' clear3d()
 #' plot3d(mousebrain)
 #' ### This takes a long time the first time you call this function.
@@ -28,8 +28,8 @@
 #' print(mousebrain$neuropil_full_names)
 #'
 #' ## Or if we want more information, we can get it like this:
-#' mbr = mouselight__brain_region_info()
-#' View(mouselight__brain_region_info)
+#' mbr = mouselight_brain_region_info()
+#' View(mouselight_brain_region_info)
 #'
 #' ## Perhaps we want to plot just the amygdala?
 #' ### To do this we can do
@@ -43,8 +43,8 @@
 #' @references Winnubst, Johan, Erhan Bas, Tiago A. Ferreira, Zhuhao Wu, Michael N. Economo, Patrick Edson, Ben J. Arthur, et al. 2019. “Reconstruction of 1,000 Projection Neurons Reveals New Cell Types and Organization of Long-Range Connectivity in the Mouse Brain.” bioRxiv. https://doi.org/10.1101/537233.
 #' Economo, Michael N., Nathan G. Clack, Luke D. Lavis, Charles R. Gerfen, Karel Svoboda, Eugene W. Myers, and Jayaram Chandrashekar. 2016. “A Platform for Brain-Wide Imaging and Reconstruction of Individual Neurons.” eLife 5 (January): e10566.
 #' @export
-#' @rdname mouselight__read_brain
-mouselight__read_brain <- function(type = c("outline", "brain_areas"),
+#' @rdname mouselight_read_brain
+mouselight_read_brain <- function(type = c("outline", "brain_areas"),
                           progress  = TRUE,
                           save.path = NULL,
                           Force  = FALSE){
@@ -69,7 +69,7 @@ mouselight__read_brain <- function(type = c("outline", "brain_areas"),
   operationName = NULL
   )
   bodyj=jsonlite::toJSON(body, null = 'null', auto_unbox = T)
-  res = mouselight__fetch(path = "graphql",
+  res = mouselight_fetch(path = "graphql",
                  body = bodyj,
                  parse.json = TRUE,
                  simplifyVector=FALSE,
@@ -85,7 +85,7 @@ mouselight__read_brain <- function(type = c("outline", "brain_areas"),
     df = subset(df, safeName != "Whole Brain")
   }
   # Now read .obj files
-  urls = mouselight__url("static/allen/obj",df$geometryFile)
+  urls = mouselight_url("static/allen/obj",df$geometryFile)
   saved.files = success = c()
   for (url in 1:length(urls)){
     message = paste("downloading", df$safeName[url],".obj file", sep = " ")
@@ -99,11 +99,11 @@ mouselight__read_brain <- function(type = c("outline", "brain_areas"),
     }
     success = c(success, url)
     saved.files = c(saved.files, localfile)
-    if(progress) mouselight__progress(url/length(urls)*100, max = 101, message = message)
+    if(progress) mouselight_progress(url/length(urls)*100, max = 101, message = message)
   }
   objs = lapply(saved.files, function(x)
     tryCatch(readobj::read.obj(x, convert.rgl = T), error = function(e) NULL)[[1]])
-  if(progress) mouselight__progress(url/length(urls)*100, max = 101, message = "reading .obj files")
+  if(progress) mouselight_progress(url/length(urls)*100, max = 101, message = "reading .obj files")
   success = success[!sapply(objs, is.null)]
   objs = objs[!sapply(objs, is.null)]
   objs = lapply(objs, nat::as.hxsurf)
@@ -127,7 +127,7 @@ mouselight__read_brain <- function(type = c("outline", "brain_areas"),
     brain$RegionList = c(brain$RegionList, region.name)
     brain$RegionColourList = c(brain$RegionColourList, structure.colors[success][i])
     count = count + nrow(o$Vertices)
-    if(progress) mouselight__progress(i/length(objs)*100, max = 100, message = "assembling hxsurf object")
+    if(progress) mouselight_progress(i/length(objs)*100, max = 100, message = "assembling hxsurf object")
   }
   brain$neuropil_full_names = df$safeName[success]
   brain

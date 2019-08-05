@@ -12,6 +12,17 @@ mouselight_brain_graph(...)
 \arguments{
 \item{...}{methods passed to \code{mouselight_fetch}}
 }
+\value{
+Using \code{mouselight_brain_graph} will return an object of class \code{igraph} for use with the \code{igraph} R package.
+Using \code{mouselight_brain_region_info}, a \code{data.frame} with the following values is returned:
+\itemize{
+ \item 	\emph{acronym}	 short name for a brain region
+ \item 	\emph{safeName}	 long, easily computer-readble name for a brain region
+ \item 	\emph{structureId}	 unique ID for brain region
+ \item 	\emph{parentStructureId}	 ID for a larger brain region, to which this brain region belongs
+ \item 	\emph{structureIdPath}	 a path of structure IDs to the 'root', the whole brain
+}
+}
 \description{
 Query MouseLight's GraphQL API to retreive information about all of the brain volumes in the MouseLight project. These
 brain regions can be sub-volumes of other brain regions. An \code{igraph} object can be generated to explore these dependencies.
@@ -37,6 +48,10 @@ plot(g, layout = f)
 tkplot(g, layout = f)
 
 }
+}
+\references{
+Winnubst, Johan, Erhan Bas, Tiago A. Ferreira, Zhuhao Wu, Michael N. Economo, Patrick Edson, Ben J. Arthur, et al. 2019. “Reconstruction of 1,000 Projection Neurons Reveals New Cell Types and Organization of Long-Range Connectivity in the Mouse Brain.” bioRxiv. https://doi.org/10.1101/537233.
+Economo, Michael N., Nathan G. Clack, Luke D. Lavis, Charles R. Gerfen, Karel Svoboda, Eugene W. Myers, and Jayaram Chandrashekar. 2016. “A Platform for Brain-Wide Imaging and Reconstruction of Individual Neurons.” eLife 5 (January): e10566.
 }
 \seealso{
 \code{\link{mouselight_read_brain}}, \code{\link{mouselight_read_neurons}}
