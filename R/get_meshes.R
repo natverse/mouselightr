@@ -1,4 +1,40 @@
-
+#' @title Read the brain mesh and its brain regions from the MouseLight project
+#'
+#' @description Save  the brain mesh and its brain regions from the MouseLight project
+#' @param ... methods passed to \code{ml_fetch}
+#' @param ... methods passed to \code{ml_fetch}
+#' @param ... methods passed to \code{ml_fetch}
+#' @param ... methods passed to \code{ml_fetch}
+#' @return a \code{nat} package \code{\link[nat]{hxsurf}} object, which mimics the Amira surface format, replete with metadata that can be
+#' accessed using \code{$}
+#' @seealso \code{\link{insectbraindb_neuron_info}}, \code{\link{insectbraindb_read_neurons}}, \code{\link{insectbraindb_species_info}}
+#' @inherit ml_brain_info references
+#' @seealso \code{\link{mouselight_read_brain}}, \code{\link{ml_brain_region_info}}
+#' @examples
+#' \dontrun{
+#' ## First we need to download all of the neurons
+#' mbr = ml_brain_region_info()
+#'
+#' ## Leet's have a look at this data
+#' View(ml_brain_region_info)
+#'
+#' ## Some brain regions are actually a subcompartment of others in this set.
+#' ### Hmm, so what would be good is if we could see those correspondences
+#' g = ml_brain_graph()
+#'
+#' ## Let's plot these i na way we can easily see!
+#' library(igraph)
+#' f = igraph::layout_with_fr(g)
+#' plot(g, layout = f)
+#'
+#' ## There are a lot of nodes here, we might want to move them about
+#' tkplot(g, layout = f)
+#'
+#' }
+#' @references Winnubst, Johan, Erhan Bas, Tiago A. Ferreira, Zhuhao Wu, Michael N. Economo, Patrick Edson, Ben J. Arthur, et al. 2019. “Reconstruction of 1,000 Projection Neurons Reveals New Cell Types and Organization of Long-Range Connectivity in the Mouse Brain.” bioRxiv. https://doi.org/10.1101/537233.
+#' Economo, Michael N., Nathan G. Clack, Luke D. Lavis, Charles R. Gerfen, Karel Svoboda, Eugene W. Myers, and Jayaram Chandrashekar. 2016. “A Platform for Brain-Wide Imaging and Reconstruction of Individual Neurons.” eLife 5 (January): e10566.
+#' @export
+#' @rdname ml_brain_info
 ml_read_brain <- function(type = c("outline", "brain_areas"),
                           progress  = TRUE,
                           save.path = NULL,
