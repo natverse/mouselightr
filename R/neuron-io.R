@@ -46,6 +46,7 @@ mouselight_read_neurons <- function(x, method=c("native","swc"), ...) {
   rr=sapply(x, function(y) {pb$tick();fetch_raw_tracings(y)}, simplify = F)
   ul=unlist(lapply(rr, function(x) x$tracings), recursive = F)
   nl=nat::nlapply(ul, process_tracing_list, OmitFailures = T)
+  nl[,"ms_id"] = names(nl)
   nl
 }
 
@@ -65,20 +66,20 @@ mouselight_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksiz
     nl=do.call(c, res)
     return(nl)
   }
-  b = jsonlite::toJSON(list(ids = x))
+  bodyj = jsonlite::toJSON(list(ids = x))
   f=tempfile(fileext = '.zip')
   on.exit(unlink(f))
-  res = httr::POST(
-    url = mouselight_url('swc'),
-    body = b,
-    httr::content_type_json(),
-    encode = 'raw',
-    httr::timeout(timeout)
-  )
-  httr::stop_for_status(res)
+  res = mouselight_fetch(path = 'swc',
+                         body = bodyj,
+                         parse.json = FALSE,
+                         simplifyVector=FALSE,
+                         include_headers = FALSE,
+                         config = httr::content_type_json(),
+                         encode='raw',
+                         httr::timeout(timeout))
   res2=httr::content(res, type = 'application/json')
-  writeBin(jsonlite::base64_dec(res2[[1]]), con = f)
-  nat::read.neurons(f, neuronnames = )
+  writeBin(jsonlite::base64_dec(res[[1]]), con = f)
+  nat::read.neurons(f)
 }
 
 # This gets the raw tracing info for one or more ids
