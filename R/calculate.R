@@ -4,12 +4,15 @@
 #' find out in which neuropils it has its nodes
 #'
 #' @param x a \code{neuronlist} of tracings that have been read into R using \code{\link{mouselight_read_neurons}}, with \code{method = "native"}.
-#' @param brain.areas a vector of brain region acronyms. See \code{\link{mouselight_brain_area_info}}.
+#' @param brain.areas a vector of brain region acronyms. See \code{\link{mouselight_brain_region_info}}.
 #' @param labels a vector of label IDs, denoting neuron compartment e.g. 2 for axon, 3 for dendrite, 0 for intervening path, etc. See \code{\link{mouselight_read_neurons}}.
 #' @param ... methods sent to \code{mouselight_fetch_swc}
 #'
+#' @details Note, when using \code{mouselight_neurons_by_brain_region}, the brain region
+#'   returned can belong to larger brain regions, which are agglomerations of
+#'   smaller ones. See \code{\link{mouselight_brain_region_info}}.
 #' @return A data.frame
-#' @seealso \code{\link{mouselight_read_brain}}, \code{\link{mouselight_brain_area_info}}, \code{\link{mouselight_neuron_info}}, \code{\link{mouselight_read_neurons}}
+#' @seealso \code{\link{mouselight_read_brain}}, \code{\link{mouselight_brain_region_info}}, \code{\link{mouselight_neuron_info}}, \code{\link{mouselight_read_neurons}}
 #'
 #' @examples
 #' \donttest{

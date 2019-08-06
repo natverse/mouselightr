@@ -7,21 +7,30 @@
 \usage{
 mouselight_neuron_info(simplify = TRUE)
 
-mouselight_neuron_somata(soma.info = TRUE)
+mouselight_neuron_somata()
 }
 \arguments{
 \item{simplify}{whether to simplify the query result to a simple data.frame
 with one row per tracing (See details).}
-
-\item{structure}{when searching for the brain regions containing neurons of interest,
-the part of the neuron that should be used for the search}
 }
 \value{
 data.frame describing the available neurons. See details for the
   implication of the \code{simplify} argument.
 }
 \description{
-Query available neurons from MouseLight site
+Query tracings for neurons, and/or neuron soma locations, from the MouseLight Neuron Browser.
+Each neuron may have multiple tracgings, typically one for its
+axon and another for its dendrite.
+}
+\details{
+Mouselight neurons typically consist of two separate tracings, one
+  for the axon and one for the dendrites. When \code{simplify=TRUE} (the
+  default) the output is a \emph{flattened} data frame with one row for every
+  tracing. When \code{simplify=FALSE} there is one row per neuron, but the
+  data.frame contains nested data frames with per tracing information.
+
+  The identifier which you will need to download a neuron with
+  \code{\link{mouselight_read_neurons}} is stored in column
 }
 \examples{
 \donttest{

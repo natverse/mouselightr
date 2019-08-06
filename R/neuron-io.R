@@ -1,5 +1,7 @@
 #' Read one or more MouseLight tracings into a neuronlist
 #'
+#' @description read tracings for neurons from the MouseLight Neuron Browser. Each neuron may have multiple tracgings, typically one for its
+#' axon and another for its dendrite. To read neuron, a vector of tracing IDs needs to be supplied. To find there, use \code{\link{mouselight_neuron_info}}.
 #' @details Note that mouselight neurons have numerous associated
 #'   identifiers. Some appear to occur only once per neuron:
 #'   \itemize{
@@ -44,43 +46,43 @@
 #' @export
 #' @rdname mouselight_read_neurons
 mouselight_read_neurons <- function(tracing.ids, method=c("native","swc"), meta = TRUE, ...) {
-  method=match.arg(method)
+  method<-match.arg(method)
   if(method=='swc')
-    return(mouselight_fetch_swc(x, ...))
-  pb <- progress::progress_bar$new(total = length(x),
+    return(mouselight_fetch_swc(tracing.ids, ...))
+  pb <- progress::progress_bar$new(total = length(tracing.ids),
     format = "  downloading [:bar] :percent eta: :eta")
-  rr=sapply(x, function(y) {pb$tick();fetch_raw_tracings(y)}, simplify = F)
-  ul=unlist(lapply(rr, function(x) x$tracings), recursive = F)
-  nl=nat::nlapply(ul, process_tracing_list, OmitFailures = T)
+  rr <- suppressWarnings(sapply(tracing.ids, function(y) {pb$tick();fetch_raw_tracings(y)}, simplify = F))
+  ul <- unlist(lapply(rr, function(x) x$tracings), recursive = F)
+  nl <- nat::nlapply(ul, process_tracing_list, OmitFailures = T)
   if(meta){
-    nl[,] = mouselight_neuron_metadata(tracing.ids = names(nl))
+    nl[,] <- mouselight_neuron_metadata(tracing.ids = names(nl))
   }else{
-    nl[,"tracing.id"] = names(nl)
+    nl[,"tracing.id"] <- names(nl)
   }
   nl
 }
 
 # hidden
 mouselight_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksize=5L) {
-  n=length(x)
+  n<-length(x)
   if(n>chunksize) {
-    pb = progress::progress_bar$new(total = n,
+    pb <- progress::progress_bar$new(total = n,
                                     format = "  :current/:total [:bar]  eta: :eta",
                                     show_after = 2)
-    nchunks=ceiling(n/chunksize)
-    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(n)]
-    res = by(x,
+    nchunks<-ceiling(n/chunksize)
+    chunks<-rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(n)]
+    res <- by(x,
              chunks,
              function(chk, ...) {pb$tick(length(chk));mouselight_fetch_swc(chk, ...)},
              progress = FALSE,
              simplify = FALSE)
-    nl=do.call(c, res)
+    nl<-do.call(c, res)
     return(nl)
   }
-  bodyj = jsonlite::toJSON(list(ids = x))
-  f=tempfile(fileext = '.zip')
+  bodyj <- jsonlite::toJSON(list(ids = x))
+  f<-tempfile(fileext = '.zip')
   on.exit(unlink(f))
-  res = mouselight_fetch(path = 'swc',
+  res <- mouselight_fetch(path = 'swc',
                          body = bodyj,
                          parse.json = FALSE,
                          simplifyVector=FALSE,
@@ -88,15 +90,15 @@ mouselight_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksiz
                          config = httr::content_type_json(),
                          encode='raw',
                          httr::timeout(timeout))
-  res2=httr::content(res, type = 'application/json')
+  res2<-httr::content(res, type = 'application/json')
   writeBin(jsonlite::base64_dec(res[[1]]), con = f)
   nat::read.neurons(f)
 }
 
 # This gets the raw tracing info for one or more ids
 fetch_raw_tracings <- function(ids, baseurl='http://ml-neuronbrowser.janelia.org/tracings') {
-  bodyj=jsonlite::toJSON(list(ids=ids), auto_unbox = F) # nb auto_unbox must be F for length one queries
-  res = mouselight_fetch(path = 'tracings',
+  bodyj<-jsonlite::toJSON(list(ids=ids), auto_unbox = F) # nb auto_unbox must be F for length one queries
+  res <- mouselight_fetch(path = 'tracings',
                          body = bodyj,
                          parse.json = TRUE,
                          simplifyVector=FALSE,
@@ -110,9 +112,9 @@ fetch_raw_tracings <- function(ids, baseurl='http://ml-neuronbrowser.janelia.org
 process_tracing_list <- function(x) {
   if (!isTRUE(all.equal(names(x), c("id", "nodes"))))
     stop("Expect a 2 element list (id, nodes)")
-  bb=try(dplyr::bind_rows(x$nodes))
+  bb<-try(dplyr::bind_rows(x$nodes))
   if(inherits(bb, 'try-error')) {
-    bb=dplyr::bind_rows(lapply(x$nodes, jsonlite:::null_to_na))
+    bb<-dplyr::bind_rows(lapply(x$nodes, jsonlite:::null_to_na))
   }
   rawdf2neuron(bb, id=x$id)
 }
@@ -123,13 +125,13 @@ delayedAssign('.brainAreaIds', brainAreaIds())
 
 # convert the pseudo SWC format returned by mouselight into what we need
 rawdf2neuron <- function(x, ...) {
-  selcols=c("x", "y", "z", "radius", "parentNumber", "sampleNumber", "brainAreaId","structureIdentifierId")
-  newcols=c("X","Y","Z","W", "Parent", "PointNo", "brain_area","Label")
-  ndf=x[selcols]
-  names(ndf)=newcols
+  selcols<-c("x", "y", "z", "radius", "parentNumber", "sampleNumber", "brainAreaId","structureIdentifierId")
+  newcols<-c("X","Y","Z","W", "Parent", "PointNo", "brain_area","Label")
+  ndf<-x[selcols]
+  names(ndf)<-newcols
   ndf[['W']]=ndf[['W']]*2
-  ndf[['brain_area']]=.brainAreaIds$acronym[match(ndf[['brain_area']], .brainAreaIds$id)]
-  ndf[['Label']]=.structureIdentifiers$value[match(ndf[['Label']], .structureIdentifiers$id)]
+  ndf[['brain_area']]<-.brainAreaIds$acronym[match(ndf[['brain_area']], .brainAreaIds$id)]
+  ndf[['Label']]<-.structureIdentifiers$value[match(ndf[['Label']], .structureIdentifiers$id)]
   nat::as.neuron(ndf, ...)
 }
 
@@ -148,6 +150,4 @@ mouselight_neuron_metadata <- function(tracing.ids){
   rownames(ml) <- ml$tracing.id
   ml
 }
-
-
 

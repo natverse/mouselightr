@@ -24,7 +24,8 @@ ids used by the project. See available neurons and their tracing.ids using \code
 A \code{nat::\link{neuronlist}}
 }
 \description{
-Read one or more MouseLight tracings into a neuronlist
+read tracings for neurons from the MouseLight Neuron Browser. Each neuron may have multiple tracgings, typically one for its
+axon and another for its dendrite. To read neuron, a vector of tracing IDs needs to be supplied. To find there, use \code{\link{mouselight_neuron_info}}.
 }
 \details{
 Note that mouselight neurons have numerous associated

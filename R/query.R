@@ -1,9 +1,10 @@
 #' Query available neurons from MouseLight site
 #'
+#' @description Query tracings for neurons, and/or neuron soma locations, from the MouseLight Neuron Browser.
+#' Each neuron may have multiple tracgings, typically one for its
+#' axon and another for its dendrite.
 #' @param simplify whether to simplify the query result to a simple data.frame
 #'   with one row per tracing (See details).
-#' @param structure when searching for the brain regions containing neurons of interest,
-#' the part of the neuron that should be used for the search
 #' @return data.frame describing the available neurons. See details for the
 #'   implication of the \code{simplify} argument.
 #' @details Mouselight neurons typically consist of two separate tracings, one
@@ -15,9 +16,6 @@
 #'   The identifier which you will need to download a neuron with
 #'   \code{\link{mouselight_read_neurons}} is stored in column
 #'
-#'   Note, when using \code{mouselight_neurons_by_brain_region}, the brain region
-#'   returned can belong to larger brain regions, which are agglomerations of
-#'   smaller ones. See \code{\link{mouselight_brain_region_info}.
 #'
 #' @examples
 #' \donttest{
@@ -102,17 +100,8 @@ mouselight_neuron_info <- function(simplify=TRUE) {
 
 #' @export
 #' @rdname mouselight_neuron_info
-mouselight_neuron_somata <- function(soma.info=TRUE) {
-  somaq <- if(isTRUE(soma.info)){
-    "tracings {\n soma {\n          x\n          y\n          z\n          radius\n}\n}\n"
-  }else{
-    ""
-  }
-  query <-  paste0("query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context)",
-                 " {\n    ",
-                 "neurons {\n      id\n      idString\n ",
-                 somaq,
-                 "}\n}}\n\n")
+mouselight_neuron_somata <- function() {
+  query <-  "query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context) {\n    neurons {\n      id\n      idString\n tracings {\n soma {\n          x\n          y\n          z\n          radius\n}\n}\n}\n}}\n\n"
   body = list(
     operationName = "SearchNeurons",
     variables = list(context = list(
@@ -154,6 +143,8 @@ mouselight_neuron_somata <- function(soma.info=TRUE) {
 
 
 # in progress
+# @param structure when searching for the brain regions containing neurons of interest,
+# the part of the neuron that should be used for the search
 mouselight_neurons_by_brain_region <- function(structure = c("either","axon", "dendrite")){
   structure <- match.arg(structure)
   body <-  list(
