@@ -2,14 +2,21 @@
 % Please edit documentation in R/neuron-io.R
 \name{mouselight_read_neurons}
 \alias{mouselight_read_neurons}
-\title{Read one or more mouselight tracings into a neuronlist}
+\alias{mouselight_neuron_metadata}
+\title{Read one or more MouseLight tracings into a neuronlist}
 \usage{
-mouselight_read_neurons(x, method = c("native", "swc"), ...)
+mouselight_read_neurons(tracing.ids, method = c("native", "swc"),
+  meta = TRUE, ...)
+
+mouselight_neuron_metadata(tracing.ids)
 }
 \arguments{
-\item{x}{ids of tracings of mouselight neurons}
+\item{tracing.ids}{ids of tracings.ids for MouseLight neurons. Note, this is different from neuron.ids and other
+ids used by the project. See available neurons and their tracing.ids using \code{\link{mouselight_neuron_info}}.}
 
-\item{method}{whterh to read from MouseLight's own raw tracing format or stored SWC files}
+\item{method}{whether to read from MouseLight's own raw tracing format or stored SWC files}
+
+\item{meta}{whether or not to read meta data for tracings using \code{mouselight_neuron_metadata}}
 
 \item{...}{methods sent to \code{mouselight_fetch_swc}}
 }
@@ -17,11 +24,12 @@ mouselight_read_neurons(x, method = c("native", "swc"), ...)
 A \code{nat::\link{neuronlist}}
 }
 \description{
-Read one or more mouselight tracings into a neuronlist
+Read one or more MouseLight tracings into a neuronlist
 }
 \details{
-Note that mouselight neurons appear to have numerous associated
-  identifiers. Some appear to occur only once per neuron: \itemize{
+Note that mouselight neurons have numerous associated
+  identifiers. Some appear to occur only once per neuron:
+  \itemize{
 
   \item UUID (called neuron.id) e.g. "780dfeef-e644-4e85-9aad-b31c9957b440"
 
@@ -37,15 +45,21 @@ Note that mouselight neurons appear to have numerous associated
 
   \item soma.id e.g. 8abce9c1-479b-43a3-b5f2-080de966f068 }
 
-  There are nearly always two tracing ids per neuron (axon, dendrite). I
-  don't know why there are multiple soma ids.
+  There are nearly always two tracing ids per neuron (axon, dendrite).
+  And seemingly multiple soma ids.
+
+  Neurons read with method = "native" will have, at neuron$d, the brain region
+  within which each node falls and a value, "Label", denoted whether the tracings is
+  an axon (2) or dendrite (3).
 }
 \examples{
 \donttest{
 ids=c("1ccbc478-88fb-4181-a4de-d0c22ed9738b",
   "3afa5e41-374d-45bc-a546-03f362d93649")
 nn=mouselight_read_neurons(ids)
-library(nat)
 plot3d(nn)
 }
+}
+\seealso{
+\code{\link{mouselight_read_brain}}, \code{\link{mouselight_brain_region_info}}, \code{\link{mouselight_neuron_info}}
 }
