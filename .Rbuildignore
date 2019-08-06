@@ -3,3 +3,4 @@
 ^.*\.har$
 
 ^README\.Rmd$
+^\.travis\.yml$
