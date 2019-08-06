@@ -110,9 +110,8 @@ devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
+<p><img src="reference/figures/mouselight_neuropils.png"></p>
 <p>Let’s also have a look at an example pulling neurons and brain meshes from the <a href="https://mouselightr.neuro.mpg.de">MouseLight neuron browser</a>. Excitingly, all the data is in a single standard template space!</p>
-<p align="center">
-<img src="inst/images/mouselight_neuropils.png"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## First we can quickly just plot the outer mesh for the brain
 outline =<span class="st"> </span><span class="kw"><a href="reference/mouselight_read_brain.html">mouselight_read_brain</a></span>(<span class="dt">type =</span> <span class="st">"outline"</span>)
 <span class="kw">plot3d</span>(outline, <span class="dt">col =</span> <span class="st">"pink"</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>)
@@ -160,8 +159,7 @@ amyg.neurons =<span class="st"> </span>mlns[amyg.ids]
 ## And plot!
 <span class="kw">plot3d</span>(amyg.neurons)
 ### Quite wide-ranging!</code></pre></div>
-<p align="center">
-<img src="inst/images/mouselight_neurons.png"></p>
+<p><img src="reference/figures/mouselight_neurons.png"></p>
 </div>
 <div id="acknowledging-the-data-and-tools" class="section level2">
 <h2 class="hasAnchor">

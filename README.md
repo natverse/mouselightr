@@ -41,9 +41,8 @@ Now we can have a look at what is available, here are some of the key functions.
 Example
 -------
 
-<p align="center">
 <img src="man/figures/mouselight_neuropils.png" />
-</p>
+
 Let's also have a look at an example pulling neurons and brain meshes from the [MouseLight neuron browser](https://mouselightr.neuro.mpg.de). Excitingly, all the data is in a single standard template space!
 
 ``` r
@@ -96,9 +95,8 @@ plot3d(amyg.neurons)
 ### Quite wide-ranging!
 ```
 
-<p align="center">
 <img src="man/figures/mouselight_neurons.png" />
-</p>
+
 Acknowledging the data and tools
 --------------------------------
 
