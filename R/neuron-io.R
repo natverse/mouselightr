@@ -1,4 +1,4 @@
-#' Read one or more mouselight tracings into a neuronlist
+#' Read one or more MouseLight tracings into a neuronlist
 #'
 #' @details Note that mouselight neurons have numerous associated
 #'   identifiers. Some appear to occur only once per neuron:
@@ -21,7 +21,12 @@
 #'   There are nearly always two tracing ids per neuron (axon, dendrite).
 #'   And seemingly multiple soma ids.
 #'
-#' @param x ids of tracings of mouselight neurons
+#'   Neurons read with method = "native" will have, at neuron$d, the brain region
+#'   within which each node falls and a value, "Label", denoted whether the tracings is
+#'   an axon (2) or dendrite (3).
+#'
+#' @param x ids of tracings.ids for MouseLight neurons. Note, this is different from neuron.ids and other
+#' ids used by the project. See available neurons and their tracing.ids using \code{\link{mouselight_neuron_info}}.
 #' @param method whether to read from MouseLight's own raw tracing format or stored SWC files
 #' @param ... methods sent to \code{mouselight_fetch_swc}
 #'
@@ -46,7 +51,7 @@ mouselight_read_neurons <- function(x, method=c("native","swc"), ...) {
   rr=sapply(x, function(y) {pb$tick();fetch_raw_tracings(y)}, simplify = F)
   ul=unlist(lapply(rr, function(x) x$tracings), recursive = F)
   nl=nat::nlapply(ul, process_tracing_list, OmitFailures = T)
-  nl[,"ms_id"] = names(nl)
+  nl[,"tracing.id"] = names(nl)
   nl
 }
 
@@ -109,14 +114,16 @@ process_tracing_list <- function(x) {
 
 # hidden
 delayedAssign('.structureIdentifiers', structureIdentifiers())
+delayedAssign('.brainAreaIds', brainAreaIds())
 
 # convert the pseudo SWC format returned by mouselight into what we need
 rawdf2neuron <- function(x, ...) {
-  selcols=c("x", "y", "z", "radius", "parentNumber", "sampleNumber", "structureIdentifierId")
-  newcols=c("X","Y","Z","W", "Parent", "PointNo","Label")
+  selcols=c("x", "y", "z", "radius", "parentNumber", "sampleNumber", "brain_area","structureIdentifierId")
+  newcols=c("X","Y","Z","W", "Parent", "PointNo", "brainAreaId","Label")
   ndf=x[selcols]
   names(ndf)=newcols
   ndf[['W']]=ndf[['W']]*2
+  ndf[['brain_area']]=.brainAreaIds$acronym[match(ndf[['brain_area']], .brainAreaIds$id)]
   ndf[['Label']]=.structureIdentifiers$value[match(ndf[['Label']], .structureIdentifiers$id)]
   nat::as.neuron(ndf, ...)
 }
