@@ -46,6 +46,7 @@ mouselight_brain_region_info <- function(...){
     structureId\n
     parentStructureId\n
     structureIdPath\n
+    id\n
     }\n
 }",
     variables = list(),
@@ -142,6 +143,33 @@ structureIdentifiers <- function(){
   df = as.data.frame(t(apply(df, 1, unlist)))
   df$value = as.integer(df$value)
   df$`__typename` = "StructureIdentifier"
+  rownames(df) = df$structureId
+  df
+}
+
+# hidden
+brainAreaIds <- function(){
+  body = list(
+    query = "{\n
+    brainAreas {\n
+    id\n
+    acronym\n
+    }\n
+    }",
+    variables = list(),
+    operationName = NULL
+  )
+  bodyj=jsonlite::toJSON(body, null = 'null', auto_unbox = T)
+  res = mouselight_fetch(path = "graphql",
+                         body = bodyj,
+                         parse.json = TRUE,
+                         simplifyVector=FALSE,
+                         include_headers = FALSE,
+                         config = httr::content_type_json(),
+                         encode='raw')
+  df = do.call(rbind,res$data$brainAreas)
+  df = as.data.frame(t(apply(df, 1, unlist)))
+  df$`__typename` = "brainAreaIds"
   rownames(df) = df$structureId
   df
 }
