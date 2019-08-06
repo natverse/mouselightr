@@ -144,4 +144,4 @@ structureIdentifiers <- function(){
   df$`__typename` = "StructureIdentifier"
   rownames(df) = df$structureId
   df
-  }
+}

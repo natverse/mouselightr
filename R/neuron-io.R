@@ -50,6 +50,7 @@ mouselight_read_neurons <- function(x, method=c("native","swc"), ...) {
   nl
 }
 
+# hidden
 mouselight_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksize=5L) {
   n=length(x)
   if(n>chunksize) {
