@@ -26,7 +26,7 @@
 #' table(table(ndf$neuron.id))
 #'
 #' # In what brain regions do neurons have their end points?
-#' br_search = mouselight_neurons_by_brain_region()
+#' br_search = mouselight_neurons_by_brain_region("dendrite")
 #' View(br_search)
 #'
 #' }
@@ -100,17 +100,19 @@ mouselight_neuron_info <- function(simplify=TRUE) {
   parsed_res
 }
 
-# hidden
-mouselight_neuron_info_simple <- function(soma.info=TRUE) {
-  somaq <- if(isTRUE(soma.info))
-    "soma {\n          id\n          x\n          y\n          z\n          radius\n}\n"
-  else ""
-  query = paste0("query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context)",
-                 " {\n    totalCount\n    queryTime\n    ",
-                 "neurons {\n      id\n      idString}\n",
+#' @export
+#' @rdname mouselight_neuron_info
+mouselight_neuron_somata <- function(soma.info=TRUE) {
+  somaq <- if(isTRUE(soma.info)){
+    "tracings {\n soma {\n          x\n          y\n          z\n          radius\n}\n}\n"
+  }else{
+    ""
+  }
+  query <-  paste0("query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context)",
+                 " {\n    ",
+                 "neurons {\n      id\n      idString\n ",
                  somaq,
-                 "}\n}\n")
-  query="query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context) {\n    totalCount\n    queryTime\n    neurons {\n      id\n      idString}\n}\n}\n"
+                 "}\n}}\n\n")
   body = list(
     operationName = "SearchNeurons",
     variables = list(context = list(
@@ -119,7 +121,7 @@ mouselight_neuron_info_simple <- function(soma.info=TRUE) {
       predicates = list(
         list(
           predicateType = 3L,
-          tracingIdsOrDOIs = list("1"),
+          tracingIdsOrDOIs = list("67f04b64-80ed-4dfc-a519-7cac0605a84f"),
           tracingIdsOrDOIsExactMatch = FALSE,
           tracingStructureIds = list("68e76074-1777-42b6-bbf9-93a6a5f02fa4"),
           nodeStructureIds = list("c37953e1-a1e9-4b9a-847e-08d9566ced65"),
@@ -135,45 +137,45 @@ mouselight_neuron_info_simple <- function(soma.info=TRUE) {
     )),
     query=query
   )
-
   bodyj=jsonlite::toJSON(body, null = 'null', auto_unbox = T)
-  res=httr::POST(url = mouselight_url('graphql'), body = bodyj, httr::content_type_json(), encode='raw')
-  httr::stop_for_status(res)
-  raw_res=httr::content(res, as='text', type='application/json', encoding = 'utf8')
-  parsed_res=jsonlite::fromJSON(raw_res, simplifyVector = T)
-  parsed_res=parsed_res$data[[1]]
-  if(is.null(parsed_res$neurons))
-    stop("invalid return structure!")
-  if(!isTRUE(nneurons <- parsed_res$totalCount>0))
-    stop("No neurons returned!")
-
-  parsed_res$neurons
+  res <-  mouselight_fetch(path = "graphql",
+                           body = bodyj,
+                           parse.json = TRUE,
+                           simplifyVector=TRUE,
+                           include_headers = FALSE,
+                           config = httr::content_type_json(),
+                           encode='raw')
+  som.df = data.frame(idString = res$data$searchNeurons$neurons[[2]],
+                      neuron.id = res$data$searchNeurons$neurons[[1]],
+                      do.call(rbind, lapply(res$data$searchNeurons$neurons[[3]], function(x) unlist(nullToNA(x)))))
+  rownames(som.df) = som.df$idString
+  som.df
 }
 
 
 #' @export
 #' @rdname mouselight_neuron_info
-mouselight_neurons_by_brain_region <- function(structure = c("end point", "soma", "path", "(basal) dendrite", "apical dendrite", "branch point", "axon")){
+mouselight_neurons_by_brain_region <- function(structure = c("either","axon", "dendrite")){
   structure <- match.arg(structure)
   body <-  list(
     operationName = "SearchNeurons",
     variables = list(context = list(
       scope = 6L,
-      nonce = "cjyo7xu7k00033h5yrj9jfpoy",
+      nonce = "cjyzvdm9400053h5y90ywg53t",
       predicates = list(
         list(
           predicateType = 3L,
           tracingIdsOrDOIs = list("1"),
           tracingIdsOrDOIsExactMatch = FALSE,
-          tracingStructureIds = list("68e76074-1777-42b6-bbf9-93a6a5f02fa4"),
-          nodeStructureIds = list(.structureIdentifiers$id[.structureIdentifiers$name==structure]),
-          operatorId = NULL,
+          tracingStructureIds = list("aef2ba31-8f9b-4a47-9de0-58dab1cc06a8"), # .structureIdentifiers$id[.structureIdentifiers$name==structure]
+          nodeStructureIds = list(), # end points: "c37953e1-a1e9-4b9a-847e-08d9566ced65"
+          operatorId = "f191e8b3-8fb9-4151-a48c-432c1a2382cd",
           amount = 0L,
-          brainAreaIds = list(),
+          brainAreaIds = list("825cacf6-2a60-4fd9-b749-414bd6941357"),
           arbCenter = list(x = NULL, y = NULL, z = NULL),
           arbSize = NULL,
           invert = FALSE,
-          composition = 3L
+          composition = 2L
         )
       )
     )),
@@ -206,4 +208,83 @@ mouselight_neurons_by_brain_region <- function(structure = c("end point", "soma"
   df
 }
 
+
+
+
+
+query = "query SearchNeurons($context: SearchContext) {\n
+searchNeurons(context: $context) {\n
+totalCount\n
+queryTime\n
+nonce\n
+error {\n
+name\n
+message\n
+__typename\n
+}\n
+neurons {\n
+id\n
+idString\n
+brainArea {\n
+id\n
+acronym\n
+__typename\n
+}\n
+sample {\n
+id\n
+idNumber\n
+__typename\n
+}\n
+tracings {\n
+id\n
+tracingStructure {\n
+id\n
+name\n
+value\n
+__typename\n
+}\n
+soma {\n
+id\n
+x\n
+y\n
+z\n
+radius\n
+parentNumber\n
+sampleNumber\n
+brainAreaId\n
+structureIdentifierId\n
+__typename\n
+}\n
+__typename\n
+}\n
+__typename\n
+}\n
+__typename\n
+}\n
+}\n
+"
+body <-  list(
+  operationName = "SearchNeurons",
+  variables = list(context = list(
+    scope = 6L,
+    nonce = "cjyzvdm9400053h5y90ywg53t",
+    predicates = list(
+      list(
+        predicateType = 3L,
+        tracingIdsOrDOIs = list("1"),
+        tracingIdsOrDOIsExactMatch = FALSE,
+        tracingStructureIds = list("aef2ba31-8f9b-4a47-9de0-58dab1cc06a8"), # .structureIdentifiers$id[.structureIdentifiers$name==structure]
+        nodeStructureIds = list(), # end points: "c37953e1-a1e9-4b9a-847e-08d9566ced65"
+        operatorId = "f191e8b3-8fb9-4151-a48c-432c1a2382cd",
+        amount = 0L,
+        brainAreaIds = list("825cacf6-2a60-4fd9-b749-414bd6941357"),
+        arbCenter = list(x = NULL, y = NULL, z = NULL),
+        arbSize = NULL,
+        invert = FALSE,
+        composition = 2L
+      )
+    )
+  )),
+  query= query
+    )
 
