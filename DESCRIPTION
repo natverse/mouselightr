@@ -15,10 +15,10 @@ LazyData: true
 ByteCompile: true
 RoxygenNote: 6.1.1
 Depends:
+    nat,
     jsonlite,
     readobj
 Imports: 
-    nat,
     httr,
     igraph,
     dplyr,
