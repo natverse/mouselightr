@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 [![Travis build status](https://travis-ci.org/natverse/mouselightr.svg?branch=master)](https://travis-ci.org/natverse/mouselightr)
 [![Codecov test coverage](https://codecov.io/gh/natverse/mouselightr/branch/master/graph/badge.svg)](https://codecov.io/gh/natverse/mouselightr?branch=master)
 [![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://jefferislab.github.io/mouselightr/reference/)
-<img align="right" width="300px" src="https://raw.githubusercontent.com/natverse/mouselightr/master/inst/images/hex-mouselightr.svg">
+<img src="man/figures/logo.svg" align="right" height="139" />
 
-# A neuron-level atlas for the mouse brain
+# MouseLightr
 
 The goal of *mouselightr* is to provide R client utilities for interacting with the [MouseLight](http://mouselight.janelia.org/) at [Janelia Research Campus](https://www.janelia.org/), which has [successfully](https://www.cell.com/neuron/pdfExtended/S0896-6273(19)30391-5) acquired and registered almost ~1,000 neurons from the mouse into a standard, annotated template space. MouseLight investigators have acquired sub-micron single neuron reconstructions from two-photon microscopy datasets of whole brainsusing modified tissue clearing techniques, and have generated a template brain with defined sub-volumes. Using this R package in concert with the [natverse](https://github.com/natverse/natverse) ecosystem of neuroanatomy tools is highly recommended. 
 
@@ -43,19 +43,24 @@ Now we can have a look at what is available, here are some of the key functions.
 
 ```{r help, eval = FALSE}
 # And how can I download and read neurons?
-?mouselightr_read_neurons()
+?mouselight_read_neurons()
+
+# Get useful information on the neurons available
+?mouselight_neuron_info()
 
 # Get a 3D neuropil-subdivided brain model
-?mouselightr_read_brain # Get 3D neuropil-subdivided brain models for those brainspaces
+?mouselight_read_brain # Get 3D neuropil-subdivided brain models for those brainspaces
 ```
 
 ## Example
 
 Let's also have a look at an example pulling neurons and brain meshes from the [MouseLight neuron browser](https://mouselightr.neuro.mpg.de). Excitingly, all the data is in a single standard template space!
 
-![mouselight_neuropils](https://raw.githubusercontent.com/natverse/mouselightr/master/inst/images/mouselight_neuropils.png)
+<p align="center">
+  <img src="inst/images/mouselight_neuropils.png" />
+</p>
 
-```{r insectbraindb.example, eval = FALSE}
+```{r mouselightr.example, eval = FALSE}
 ## First we can quickly just plot the outer mesh for the brain
 outline = mouselight_read_brain(type = "outline")
 plot3d(outline, col = "pink", alpha = 0.3)
@@ -64,10 +69,10 @@ plot3d(outline, col = "pink", alpha = 0.3)
 mousebrain = mouselight_read_brain(type = "brain_areas")
 clear3d()
 plot3d(mousebrain)
-### This takes a long time the first time you call this function.
-### By default .obj files for these brain regions are saved at the location
-### of this package, then following the path inst/exdata/obj and will be
-### read directly from there in future.
+### This takes a long time the first time you call this function per session
+### .obj files are saved in a temporary folders
+### You could save this brain locally, to use quickly in future.
+#### save(mousebrain,"YOUR_PATH/mouselight_brain.rda")
 
 ## What brain regions are on offer?
 print(mousebrain$neuropil_full_names)
@@ -78,16 +83,36 @@ View(mouselight_brain_region_info)
 
 ## Perhaps we want to plot just the amygdala?
 ### To do this we can do
-amygdala.codes = mousebrain$RegionList[grepl("amygdala",
-mousebrain$neuropil_full_names,
+amygdala.codes = mousebrain$RegionList[grepl("amygdala",mousebrain$neuropil_full_names,
 ignore.case = TRUE)]
 plot3d(outline, col = "pink", alpha = 0.1)
 plot3d(subset(mousebrain, amygdala.codes), alpha = 0.5)
 
+## So now we want some neurons
+## What neurons data is available?
+ndf=mouselight_neuron_info()
+#### How many tracings per neurons?
+table(table(ndf$neuron.id))
+#### This is because many 'neurons' have a separate axon and dendrite skeleton 
 
+## We can download all of these neurons, and their meta-data
+### Typically two tracings, and axon and a dendrite, per neuron
+mlns = mouselight_read_neurons(ndf$tracing.id, meta = TRUE)
+
+## Let's read in all the amygdalal neurons
+### Since each 
+in.amyg = mouselight_nodes_in_region(mlns, brain.areas = amygdala.codes, labels = NULL)
+amyg.ids = names(in.amyg)[in.amyg>0]
+amyg.neurons = mlns[amyg.ids]
+
+## And plot!
+plot3d(amyg.neurons)
+### Quite wide-ranging!
 ```
 
-![mouselight_neurons](https://raw.githubusercontent.com/natverse/mouselightr/master/inst/images/mouselight_neurons.png)
+<p align="center">
+  <img src="inst/images/mouselight_neurons.png" />
+</p>
 
 ## Acknowledging the data and tools
 
@@ -105,6 +130,3 @@ citation(package = "mouselightr")
 
 **Bates AS, Jefferis GSXE** (2019). *mouselightr: R client utilities for interacting with the MouseLight project.* **R package** version 0.1.0. https://github.com/natverse/mouselightr
 
-<p align="center">
-  <img width="300px" src="https://raw.githubusercontent.com/natverse/mouselightr/master/inst/images/hex-natverse_logo.svg"/>
-</p>
