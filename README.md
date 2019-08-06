@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 [![natverse](https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6)](https://natverse.github.io) [![Travis build status](https://travis-ci.org/natverse/mouselightr.svg?branch=master)](https://travis-ci.org/natverse/mouselightr) [![Codecov test coverage](https://codecov.io/gh/natverse/mouselightr/branch/master/graph/badge.svg)](https://codecov.io/gh/natverse/mouselightr?branch=master) [![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://jefferislab.github.io/mouselightr/reference/) <img src="man/figures/logo.svg" align="right" height="139" />
 
-MouseLightr
+Mouselightr
 ===========
 
 The goal of *mouselightr* is to provide R client utilities for interacting with the [MouseLight](http://mouselight.janelia.org/) at [Janelia Research Campus](https://www.janelia.org/), which has [successfully](https://www.cell.com/neuron/pdfExtended/S0896-6273(19)30391-5) acquired and registered almost ~1,000 neurons from the mouse into a standard, annotated template space. MouseLight investigators have acquired sub-micron single neuron reconstructions from two-photon microscopy datasets of whole brainsusing modified tissue clearing techniques, and have generated a template brain with defined sub-volumes. Using this R package in concert with the [natverse](https://github.com/natverse/natverse) ecosystem of neuroanatomy tools is highly recommended.
@@ -41,11 +41,11 @@ Now we can have a look at what is available, here are some of the key functions.
 Example
 -------
 
+<p align="center">
+<img src="man/figures/mouselight_neuropils.png" />
+</p>
 Let's also have a look at an example pulling neurons and brain meshes from the [MouseLight neuron browser](https://mouselightr.neuro.mpg.de). Excitingly, all the data is in a single standard template space!
 
-<p align="center">
-<img src="inst/images/mouselight_neuropils.png" />
-</p>
 ``` r
 ## First we can quickly just plot the outer mesh for the brain
 outline = mouselight_read_brain(type = "outline")
@@ -97,7 +97,7 @@ plot3d(amyg.neurons)
 ```
 
 <p align="center">
-<img src="inst/images/mouselight_neurons.png" />
+<img src="man/figures/mouselight_neurons.png" />
 </p>
 Acknowledging the data and tools
 --------------------------------
