@@ -1,7 +1,8 @@
 #' Read one or more mouselight tracings into a neuronlist
 #'
-#' @details Note that mouselight neurons appear to have numerous associated
-#'   identifiers. Some appear to occur only once per neuron: \itemize{
+#' @details Note that mouselight neurons have numerous associated
+#'   identifiers. Some appear to occur only once per neuron:
+#'   \itemize{
 #'
 #'   \item UUID (called neuron.id) e.g. "780dfeef-e644-4e85-9aad-b31c9957b440"
 #'
@@ -17,24 +18,25 @@
 #'
 #'   \item soma.id e.g. 8abce9c1-479b-43a3-b5f2-080de966f068 }
 #'
-#'   There are nearly always two tracing ids per neuron (axon, dendrite). I
-#'   don't know why there are multiple soma ids.
+#'   There are nearly always two tracing ids per neuron (axon, dendrite).
+#'   And seemingly multiple soma ids.
 #'
 #' @param x ids of tracings of mouselight neurons
-#' @param method whterh to read from MouseLight's own raw tracing format or stored SWC files
+#' @param method whether to read from MouseLight's own raw tracing format or stored SWC files
 #' @param ... methods sent to \code{mouselight_fetch_swc}
 #'
 #' @return A \code{nat::\link{neuronlist}}
-#' @export
+#' @seealso \code{\link{mouselight_read_brain}}, \code{\link{mouselight_brain_region_info}}, \code{\link{mouselight_neuron_info}}
 #'
 #' @examples
 #' \donttest{
 #' ids=c("1ccbc478-88fb-4181-a4de-d0c22ed9738b",
 #'   "3afa5e41-374d-45bc-a546-03f362d93649")
 #' nn=mouselight_read_neurons(ids)
-#' library(nat)
 #' plot3d(nn)
 #' }
+#' @export
+#' @rdname mouselight_read_neurons
 mouselight_read_neurons <- function(x, method=c("native","swc"), ...) {
   method=match.arg(method)
   if(method=='swc')
@@ -76,22 +78,20 @@ mouselight_fetch_swc <- function(x, timeout=length(x)*5, progress=TRUE, chunksiz
   httr::stop_for_status(res)
   res2=httr::content(res, type = 'application/json')
   writeBin(jsonlite::base64_dec(res2[[1]]), con = f)
-  nat::read.neurons(f)
+  nat::read.neurons(f, neuronnames = )
 }
 
 # This gets the raw tracing info for one or more ids
 fetch_raw_tracings <- function(ids, baseurl='http://ml-neuronbrowser.janelia.org/tracings') {
-  res=httr::POST(baseurl, body = list(ids=ids), encode='json')
-  # nb auto_unbox must be F for length one queries
-  body=jsonlite::toJSON(list(ids=ids), auto_unbox = F)
-  res = httr::POST(
-    url = mouselight_url('tracings'),
-    body = body,
-    encode = 'raw',
-    httr::content_type_json())
-  httr::stop_for_status(res)
-  resj = httr::content(res, as="text", type='application/json', encoding="UTF-8")
-  jsonlite::fromJSON(resj, simplifyVector=FALSE)
+  bodyj=jsonlite::toJSON(list(ids=ids), auto_unbox = F) # nb auto_unbox must be F for length one queries
+  res = mouselight_fetch(path = 'tracings',
+                         body = bodyj,
+                         parse.json = TRUE,
+                         simplifyVector=FALSE,
+                         include_headers = FALSE,
+                         config = httr::content_type_json(),
+                         encode='raw')
+  res
 }
 
 # this processes a list containing raw tracing data and converts to a neuron
