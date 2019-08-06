@@ -153,8 +153,7 @@ mouselight_neuron_somata <- function(soma.info=TRUE) {
 }
 
 
-#' @export
-#' @rdname mouselight_neuron_info
+# in progress
 mouselight_neurons_by_brain_region <- function(structure = c("either","axon", "dendrite")){
   structure <- match.arg(structure)
   body <-  list(
@@ -209,82 +208,4 @@ mouselight_neurons_by_brain_region <- function(structure = c("either","axon", "d
 }
 
 
-
-
-
-query = "query SearchNeurons($context: SearchContext) {\n
-searchNeurons(context: $context) {\n
-totalCount\n
-queryTime\n
-nonce\n
-error {\n
-name\n
-message\n
-__typename\n
-}\n
-neurons {\n
-id\n
-idString\n
-brainArea {\n
-id\n
-acronym\n
-__typename\n
-}\n
-sample {\n
-id\n
-idNumber\n
-__typename\n
-}\n
-tracings {\n
-id\n
-tracingStructure {\n
-id\n
-name\n
-value\n
-__typename\n
-}\n
-soma {\n
-id\n
-x\n
-y\n
-z\n
-radius\n
-parentNumber\n
-sampleNumber\n
-brainAreaId\n
-structureIdentifierId\n
-__typename\n
-}\n
-__typename\n
-}\n
-__typename\n
-}\n
-__typename\n
-}\n
-}\n
-"
-body <-  list(
-  operationName = "SearchNeurons",
-  variables = list(context = list(
-    scope = 6L,
-    nonce = "cjyzvdm9400053h5y90ywg53t",
-    predicates = list(
-      list(
-        predicateType = 3L,
-        tracingIdsOrDOIs = list("1"),
-        tracingIdsOrDOIsExactMatch = FALSE,
-        tracingStructureIds = list("aef2ba31-8f9b-4a47-9de0-58dab1cc06a8"), # .structureIdentifiers$id[.structureIdentifiers$name==structure]
-        nodeStructureIds = list(), # end points: "c37953e1-a1e9-4b9a-847e-08d9566ced65"
-        operatorId = "f191e8b3-8fb9-4151-a48c-432c1a2382cd",
-        amount = 0L,
-        brainAreaIds = list("825cacf6-2a60-4fd9-b749-414bd6941357"),
-        arbCenter = list(x = NULL, y = NULL, z = NULL),
-        arbSize = NULL,
-        invert = FALSE,
-        composition = 2L
-      )
-    )
-  )),
-  query= query
-    )
 
