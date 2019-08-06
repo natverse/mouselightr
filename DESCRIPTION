@@ -22,6 +22,7 @@ Imports:
     httr,
     igraph,
     dplyr,
+    plyr,
     progress
 Remotes: jefferis/nat
 URL: https://github.com/jefferis/nat.mouselight
