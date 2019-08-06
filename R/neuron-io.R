@@ -25,9 +25,10 @@
 #'   within which each node falls and a value, "Label", denoted whether the tracings is
 #'   an axon (2) or dendrite (3).
 #'
-#' @param x ids of tracings.ids for MouseLight neurons. Note, this is different from neuron.ids and other
+#' @param tracing.ids ids of tracings.ids for MouseLight neurons. Note, this is different from neuron.ids and other
 #' ids used by the project. See available neurons and their tracing.ids using \code{\link{mouselight_neuron_info}}.
 #' @param method whether to read from MouseLight's own raw tracing format or stored SWC files
+#' @param meta whether or not to read meta data for tracings using \code{mouselight_neuron_metadata}
 #' @param ... methods sent to \code{mouselight_fetch_swc}
 #'
 #' @return A \code{nat::\link{neuronlist}}
@@ -42,7 +43,7 @@
 #' }
 #' @export
 #' @rdname mouselight_read_neurons
-mouselight_read_neurons <- function(x, method=c("native","swc"), ...) {
+mouselight_read_neurons <- function(tracing.ids, method=c("native","swc"), meta = TRUE, ...) {
   method=match.arg(method)
   if(method=='swc')
     return(mouselight_fetch_swc(x, ...))
@@ -51,7 +52,11 @@ mouselight_read_neurons <- function(x, method=c("native","swc"), ...) {
   rr=sapply(x, function(y) {pb$tick();fetch_raw_tracings(y)}, simplify = F)
   ul=unlist(lapply(rr, function(x) x$tracings), recursive = F)
   nl=nat::nlapply(ul, process_tracing_list, OmitFailures = T)
-  nl[,"tracing.id"] = names(nl)
+  if(meta){
+    nl[,] = mouselight_neuron_metadata(tracing.ids = names(nl))
+  }else{
+    nl[,"tracing.id"] = names(nl)
+  }
   nl
 }
 
@@ -118,8 +123,8 @@ delayedAssign('.brainAreaIds', brainAreaIds())
 
 # convert the pseudo SWC format returned by mouselight into what we need
 rawdf2neuron <- function(x, ...) {
-  selcols=c("x", "y", "z", "radius", "parentNumber", "sampleNumber", "brain_area","structureIdentifierId")
-  newcols=c("X","Y","Z","W", "Parent", "PointNo", "brainAreaId","Label")
+  selcols=c("x", "y", "z", "radius", "parentNumber", "sampleNumber", "brainAreaId","structureIdentifierId")
+  newcols=c("X","Y","Z","W", "Parent", "PointNo", "brain_area","Label")
   ndf=x[selcols]
   names(ndf)=newcols
   ndf[['W']]=ndf[['W']]*2
@@ -127,5 +132,22 @@ rawdf2neuron <- function(x, ...) {
   ndf[['Label']]=.structureIdentifiers$value[match(ndf[['Label']], .structureIdentifiers$id)]
   nat::as.neuron(ndf, ...)
 }
+
+#' @export
+#' @rdname mouselight_read_neurons
+mouselight_neuron_metadata <- function(tracing.ids){
+  ml <-  mouselight_neuron_info(simplify=TRUE)
+  selcols<- c("neuron.id", "idString", "tracing.id",
+            "tracingStructure.name", "soma.x", "soma.y", "soma.z",
+            "soma.radius", "soma.brainAreaId")
+  newcols<- c("neuron.id","idString","tracing.id","compartment", "soma.x", "soma.y", "soma.z","soma.radius", "soma.bain_area")
+  ml<- ml[selcols]
+  names(ml)<- newcols
+  ml <-  ml[match(tracing.ids, ml$tracing.id),]
+  ml[['soma.bain_area']]=.brainAreaIds$acronym[match(ml[['soma.bain_area']], .brainAreaIds$id)]
+  rownames(ml) <- ml$tracing.id
+  ml
+}
+
 
 
