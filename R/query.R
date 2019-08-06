@@ -1,7 +1,9 @@
-#' Query available neurons from mouselight site
+#' Query available neurons from MouseLight site
 #'
-#' @param simplify Whether to simplify the query result to a simple data.frame
+#' @param simplify whether to simplify the query result to a simple data.frame
 #'   with one row per tracing (See details).
+#' @param structure when searching for the brain regions containing neurons of interest,
+#' the part of the neuron that should be used for the search
 #' @return data.frame describing the available neurons. See details for the
 #'   implication of the \code{simplify} argument.
 #' @details Mouselight neurons typically consist of two separate tracings, one
@@ -13,15 +15,25 @@
 #'   The identifier which you will need to download a neuron with
 #'   \code{\link{mouselight_read_neurons}} is stored in column
 #'
-#' @export
+#'   Note, when using \code{mouselight_neurons_by_brain_region}, the brain region
+#'   returned can belong to larger brain regions, which are agglomerations of
+#'   smaller ones. See \code{\link{mouselight_brain_region_info}.
 #'
 #' @examples
 #' \donttest{
-#' ndf=mouselight_list_neurons()
+#' ndf=mouselight_neuron_info()
 #' # How many tracings per neurons?
 #' table(table(ndf$neuron.id))
+#'
+#' # In what brain regions do neurons have their end points?
+#' br_search = mouselight_neurons_by_brain_region()
+#' View(br_search)
+#'
 #' }
-mouselight_list_neurons <- function(simplify=TRUE) {
+#' @seealso \code{\link{mouselight_read_brain}}, \code{\link{mouselight_brain_region_info}}
+#' @export
+#' @rdname mouselight_neuron_info
+mouselight_neuron_info <- function(simplify=TRUE) {
 
   body = list(
     operationName = "SearchNeurons",
@@ -88,7 +100,8 @@ mouselight_list_neurons <- function(simplify=TRUE) {
   parsed_res
 }
 
-mouselight_list_neurons_simple <- function(soma.info=TRUE) {
+# hidden
+mouselight_neuron_info_simple <- function(soma.info=TRUE) {
   somaq <- if(isTRUE(soma.info))
     "soma {\n          id\n          x\n          y\n          z\n          radius\n}\n"
   else ""
@@ -97,9 +110,7 @@ mouselight_list_neurons_simple <- function(soma.info=TRUE) {
                  "neurons {\n      id\n      idString}\n",
                  somaq,
                  "}\n}\n")
-
   query="query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context) {\n    totalCount\n    queryTime\n    neurons {\n      id\n      idString}\n}\n}\n"
-  # query="query SearchNeurons($context: SearchContext) {\n  searchNeurons(context: $context) {\n    totalCount\n    queryTime\n    neurons {\n      id\n      idString \tracings { soma {\n          id\n          x\n          y\n          z\n          radius\n}\n}\n}\n}\n}\n"
   body = list(
     operationName = "SearchNeurons",
     variables = list(context = list(
@@ -138,3 +149,61 @@ mouselight_list_neurons_simple <- function(soma.info=TRUE) {
 
   parsed_res$neurons
 }
+
+
+#' @export
+#' @rdname mouselight_neuron_info
+mouselight_neurons_by_brain_region <- function(structure = c("end point", "soma", "path", "(basal) dendrite", "apical dendrite", "branch point", "axon")){
+  structure <- match.arg(structure)
+  body <-  list(
+    operationName = "SearchNeurons",
+    variables = list(context = list(
+      scope = 6L,
+      nonce = "cjyo7xu7k00033h5yrj9jfpoy",
+      predicates = list(
+        list(
+          predicateType = 3L,
+          tracingIdsOrDOIs = list("1"),
+          tracingIdsOrDOIsExactMatch = FALSE,
+          tracingStructureIds = list("68e76074-1777-42b6-bbf9-93a6a5f02fa4"),
+          nodeStructureIds = list(.structureIdentifiers$id[.structureIdentifiers$name==structure]),
+          operatorId = NULL,
+          amount = 0L,
+          brainAreaIds = list(),
+          arbCenter = list(x = NULL, y = NULL, z = NULL),
+          arbSize = NULL,
+          invert = FALSE,
+          composition = 3L
+        )
+      )
+    )),
+    query= "query SearchNeurons($context: SearchContext)\n
+                  {\n
+                    searchNeurons(context: $context) {\n
+                    neurons {\n
+                    id\n
+                    __typename\n
+                    brainArea {\n
+                              acronym\n
+                              safeName\n
+                              structureId\n
+                            }\n
+                    }\n
+                  }\n
+              }"
+    )
+  bodyj <- jsonlite::toJSON(body, null = 'null', auto_unbox = T)
+  res <-  mouselight_fetch(path = "graphql",
+                         body = bodyj,
+                         parse.json = TRUE,
+                         simplifyVector=FALSE,
+                         include_headers = FALSE,
+                         config = httr::content_type_json(),
+                         encode='raw')
+  none <-  unlist(lapply(res$data$searchNeurons$neurons, function(x) !is.null(x$brainArea)))
+  df <-  data.frame(do.call(rbind, lapply(res$data$searchNeurons$neurons[none], function(x) c(id = x$id, typename = x$`__typename`, unlist(nullToNA(x$brainArea))))))
+  rownames(df) <- df$id
+  df
+}
+
+
