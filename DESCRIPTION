@@ -19,12 +19,13 @@ Description: MouseLight provide an interactive 3D browser at
 License: GPL-3
 URL: https://github.com/natverse/mouselightr
 BugReports: https://github.com/natverse/mouselightr/issues
+Depends:
+    nat
 Imports: 
     dplyr,
     httr,
     igraph,
     jsonlite,
-    nat,
     plyr,
     progress,
     readobj
