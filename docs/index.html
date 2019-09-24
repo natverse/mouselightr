@@ -86,7 +86,7 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p><a href="https://natverse.github.io"><img src="https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6" alt="natverse"></a> <a href="https://travis-ci.org/natverse/mouselightr"><img src="https://travis-ci.org/natverse/mouselightr.svg?branch=master" alt="Travis build status"></a> <a href="https://codecov.io/gh/natverse/mouselightr?branch=master"><img src="https://codecov.io/gh/natverse/mouselightr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="http://jefferislab.github.io/mouselightr/reference/"><img src="https://img.shields.io/badge/docs-100%25-brightgreen.svg" alt="Docs"></a> <img src="reference/figures/logo.svg" align="right" height="139"></p>
+<p><a href="https://natverse.github.io"><img src="https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6" alt="natverse"></a> <a href="https://travis-ci.org/natverse/mouselightr"><img src="https://travis-ci.org/natverse/mouselightr.svg?branch=master" alt="Travis build status"></a> <a href="https://codecov.io/gh/natverse/mouselightr?branch=master"><img src="https://codecov.io/gh/natverse/mouselightr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="http://natverse.github.io/mouselightr/reference/"><img src="https://img.shields.io/badge/docs-100%25-brightgreen.svg" alt="Docs"></a> <img src="reference/figures/logo.svg" align="right" height="139"></p>
 <div id="mouselightr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#mouselightr" class="anchor"></a>Mouselightr</h1></div>
@@ -96,8 +96,8 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Firstly, you will need R, R Studio and X Quartz as well as nat and its dependencies. For detailed installation instructions for all this, see <a href="https://natverse.github.io/nat/articles/Installation.html">here</a>. It should not take too long at all. Then:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"remotes"</span>)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"remotes"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"natverse/mouselightr"</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"devtools"</span>)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"natverse/mouselightr"</span>)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># use </span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(mouselightr)</a></code></pre></div>
@@ -175,7 +175,11 @@
 <a href="#acknowledging-the-data-and-tools" class="anchor"></a>Acknowledging the data and tools</h2>
 <p>Any work that uses data from this package should cite</p>
 <p><strong>Winnubst, Johan, Erhan Bas, Tiago A. Ferreira, Zhuhao Wu, Michael N. Economo, Patrick Edson, Ben J. Arthur, et al.</strong> 2019. <em>Reconstruction of 1,000 Projection Neurons Reveals New Cell Types and Organization of Long-Range Connectivity in the Mouse Brain.</em> bioRxiv. <a href="https://doi.org/10.1101/537233" class="uri">https://doi.org/10.1101/537233</a>.</p>
-<p><strong>Economo, Michael N., Nathan G. Clack, Luke D. Lavis, Charles R. Gerfen, Karel Svoboda, Eugene W. Myers, and Jayaram Chandrashekar.</strong> 2016. <em>A Platform for Brain-Wide Imaging and Reconstruction of Individual Neurons.</em> eLife 5 (January): e10566.</p>
+<p><strong>Economo, Michael N., Nathan G. Clack, Luke D. Lavis, Charles R. Gerfen, Karel Svoboda, Eugene W. Myers, and Jayaram Chandrashekar.</strong></p>
+<ol>
+<li>
+<em>A Platform for Brain-Wide Imaging and Reconstruction of Individual Neurons.</em> eLife 5 (January): e10566.</li>
+</ol>
 <p>This package was created by <a href="https://scholar.google.com/citations?user=BOVTiXIAAAAJ&amp;hl=en">Alexander Shakeel Bates</a> and <a href="https://en.wikipedia.org/wiki/Gregory_Jefferis">Dr. Gregory Jefferis</a>. You can cite this package as:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="dt">package =</span> <span class="st">"mouselightr"</span>)</a></code></pre></div>
 <p><strong>Bates AS, Jefferis GSXE</strong> (2019). <em>mouselightr: R client utilities for interacting with the MouseLight project.</em> <strong>R package</strong> version 0.1.0. <a href="https://github.com/natverse/mouselightr" class="uri">https://github.com/natverse/mouselightr</a></p>

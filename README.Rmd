@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 [![natverse](https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6)](https://natverse.github.io)
 [![Travis build status](https://travis-ci.org/natverse/mouselightr.svg?branch=master)](https://travis-ci.org/natverse/mouselightr)
 [![Codecov test coverage](https://codecov.io/gh/natverse/mouselightr/branch/master/graph/badge.svg)](https://codecov.io/gh/natverse/mouselightr?branch=master)
-[![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://jefferislab.github.io/mouselightr/reference/)
+[![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://natverse.github.io/mouselightr/reference/)
 <img src="man/figures/logo.svg" align="right" height="139" />
 
 # Mouselightr
@@ -24,7 +24,7 @@ The goal of *mouselightr* is to provide R client utilities for interacting with 
 
 ## Installation
 
-Firstly, you will need R, R Studio and X Quartz as well as nat and its dependencies. For detailed installation instructions for all this, see [here](https://jefferis.github.io/nat/articles/Installation.html). It should not take too long at all. Then:
+Firstly, you will need R, R Studio and X Quartz as well as nat and its dependencies. For detailed installation instructions for all this, see [here](https://natverse.github.io/nat/articles/Installation.html). It should not take too long at all. Then:
 
 ```{r install, eval = FALSE}
 # install
