@@ -9,11 +9,11 @@ The goal of *mouselightr* is to provide R client utilities for interacting with 
 Installation
 ------------
 
-Firstly, you will need R, R Studio and X Quartz as well as nat and its dependencies. For detailed installation instructions for all this, see [here](https://jefferis.github.io/nat/articles/Installation.html). It should not take too long at all. Then:
+Firstly, you will need R, R Studio and X Quartz as well as nat and its dependencies. For detailed installation instructions for all this, see [here](https://natverse.github.io/nat/articles/Installation.html). It should not take too long at all. Then:
 
 ``` r
 # install
-if (!require("devtools")) install.packages("devtools")
+if (!require("remotes")) install.packages("remotes")
 devtools::install_github("natverse/mouselightr")
 
 # use 
