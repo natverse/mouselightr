@@ -6,15 +6,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bridge HHMI Janelia MouseLight Database and nat R Package • nat.mouselight</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Bridge HHMI Janelia MouseLight Database and nat R Package">
-<meta property="og:description" content="MouseLight provide an interactive 3D browser at 
-    http://ml-neuronbrowser.janelia.org/. This package allows neurons from that
-    dataset to be downloaded and manipulated offline, providing a bridge to the
-    nat (NeuroAnatomy Toolbox) suite of R packages.">
+<meta property="og:description" content="MouseLight provide an interactive 3D browser at
+    http://ml-neuronbrowser.janelia.org/. This package allows neurons from
+    that dataset to be downloaded and manipulated offline, providing a
+    bridge to the nat (NeuroAnatomy Toolbox) suite of R packages.">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -23,7 +29,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -53,10 +59,16 @@
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
+<li>
+  <a href="SUPPORT.html">Help</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/jefferis/nat.mouselight">
+  <a href="https://natverse.github.io">natverse</a>
+</li>
+<li>
+  <a href="https://github.com/natverse/mouselightr">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -70,13 +82,10 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    
 
-    
-    
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+      </header><div class="row">
+  <div class="contents col-md-9">
+
 <p><a href="https://natverse.github.io"><img src="https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6" alt="natverse"></a> <a href="https://travis-ci.org/natverse/mouselightr"><img src="https://travis-ci.org/natverse/mouselightr.svg?branch=master" alt="Travis build status"></a> <a href="https://codecov.io/gh/natverse/mouselightr?branch=master"><img src="https://codecov.io/gh/natverse/mouselightr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="http://jefferislab.github.io/mouselightr/reference/"><img src="https://img.shields.io/badge/docs-100%25-brightgreen.svg" alt="Docs"></a> <img src="reference/figures/logo.svg" align="right" height="139"></p>
 <div id="mouselightr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
@@ -85,80 +94,80 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Firstly, you will need R, R Studio and X Quartz as well as nat and its dependencies. For detailed installation instructions for all this, see <a href="https://jefferis.github.io/nat/articles/Installation.html">here</a>. It should not take too long at all. Then:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install</span>
-<span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"devtools"</span>)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"natverse/mouselightr"</span>)
-
-<span class="co"># use </span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(mouselightr)</code></pre></div>
+<p>Firstly, you will need R, R Studio and X Quartz as well as nat and its dependencies. For detailed installation instructions for all this, see <a href="https://natverse.github.io/nat/articles/Installation.html">here</a>. It should not take too long at all. Then:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"remotes"</span>)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"remotes"</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"natverse/mouselightr"</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># use </span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(mouselightr)</a></code></pre></div>
 <p>Done!</p>
 </div>
 <div id="key-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#key-functions" class="anchor"></a>Key Functions</h2>
 <p>Now we can have a look at what is available, here are some of the key functions. Their help details examples of their use. You can summon the help in RStudio using <code>?</code> followed by the function name.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># And how can I download and read neurons?</span>
-?<span class="kw"><a href="reference/mouselight_read_neurons.html">mouselight_read_neurons</a></span>()
-
-<span class="co"># Get useful information on the neurons available</span>
-?<span class="kw"><a href="reference/mouselight_neuron_info.html">mouselight_neuron_info</a></span>()
-
-<span class="co"># Get a 3D neuropil-subdivided brain model</span>
-?mouselight_read_brain <span class="co"># Get 3D neuropil-subdivided brain models for those brainspaces</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># And how can I download and read neurons?</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">?<span class="kw">mouselight_read_neurons</span>()</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># Get useful information on the neurons available</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">?<span class="kw">mouselight_neuron_info</span>()</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co"># Get a 3D neuropil-subdivided brain model</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">?mouselight_read_brain <span class="co"># Get 3D neuropil-subdivided brain models for those brainspaces</span></a></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p><img src="reference/figures/mouselight_neuropils.png"></p>
 <p>Let’s also have a look at an example pulling neurons and brain meshes from the <a href="https://mouselightr.neuro.mpg.de">MouseLight neuron browser</a>. Excitingly, all the data is in a single standard template space!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## First we can quickly just plot the outer mesh for the brain
-outline =<span class="st"> </span><span class="kw"><a href="reference/mouselight_read_brain.html">mouselight_read_brain</a></span>(<span class="dt">type =</span> <span class="st">"outline"</span>)
-<span class="kw">plot3d</span>(outline, <span class="dt">col =</span> <span class="st">"pink"</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>)
-
-## This is cool, but maybe what we really want are its sub-divisions.
-mousebrain =<span class="st"> </span><span class="kw"><a href="reference/mouselight_read_brain.html">mouselight_read_brain</a></span>(<span class="dt">type =</span> <span class="st">"brain_areas"</span>)
-<span class="kw">clear3d</span>()
-<span class="kw">plot3d</span>(mousebrain)
-### This takes a long time the first time you call this function per session
-### .obj files are saved in a temporary folders
-### You could save this brain locally, to use quickly in future.
-#### save(mousebrain,"YOUR_PATH/mouselight_brain.rda")
-
-## What brain regions are on offer?
-<span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(mousebrain<span class="op">$</span>neuropil_full_names)
-
-## Or if we want more information, we can get it like this:
-mbr =<span class="st"> </span><span class="kw"><a href="reference/mouselight_brain_info.html">mouselight_brain_region_info</a></span>()
-<span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>(mouselight_brain_region_info)
-
-## Perhaps we want to plot just the amygdala?
-### To do this we can do
-amygdala.codes =<span class="st"> </span>mousebrain<span class="op">$</span>RegionList[<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"amygdala"</span>,mousebrain<span class="op">$</span>neuropil_full_names,
-<span class="dt">ignore.case =</span> <span class="ot">TRUE</span>)]
-<span class="kw">plot3d</span>(outline, <span class="dt">col =</span> <span class="st">"pink"</span>, <span class="dt">alpha =</span> <span class="fl">0.1</span>)
-<span class="kw">plot3d</span>(<span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(mousebrain, amygdala.codes), <span class="dt">alpha =</span> <span class="fl">0.5</span>)
-
-## So now we want some neurons
-## What neurons data is available?
-ndf=<span class="kw"><a href="reference/mouselight_neuron_info.html">mouselight_neuron_info</a></span>()
-#### How many tracings per neurons?
-<span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(ndf<span class="op">$</span>neuron.id))
-#### This is because many 'neurons' have a separate axon and dendrite skeleton 
-
-## We can download all of these neurons, and their meta-data
-### Typically two tracings, and axon and a dendrite, per neuron
-mlns =<span class="st"> </span><span class="kw"><a href="reference/mouselight_read_neurons.html">mouselight_read_neurons</a></span>(ndf<span class="op">$</span>tracing.id, <span class="dt">meta =</span> <span class="ot">TRUE</span>)
-
-## Let's read in all the amygdalal neurons
-### Since each 
-in.amyg =<span class="st"> </span><span class="kw"><a href="reference/mouselight_nodes_in_region.html">mouselight_nodes_in_region</a></span>(mlns, <span class="dt">brain.areas =</span> amygdala.codes, <span class="dt">labels =</span> <span class="ot">NULL</span>)
-amyg.ids =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(in.amyg)[in.amyg<span class="op">&gt;</span><span class="dv">0</span>]
-amyg.neurons =<span class="st"> </span>mlns[amyg.ids]
-
-## And plot!
-<span class="kw">plot3d</span>(amyg.neurons)
-### Quite wide-ranging!</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## First we can quickly just plot the outer mesh for the brain</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">outline =<span class="st"> </span><span class="kw">mouselight_read_brain</span>(<span class="dt">type =</span> <span class="st">"outline"</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">plot3d</span>(outline, <span class="dt">col =</span> <span class="st">"pink"</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">## This is cool, but maybe what we really want are its sub-divisions.</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">mousebrain =<span class="st"> </span><span class="kw">mouselight_read_brain</span>(<span class="dt">type =</span> <span class="st">"brain_areas"</span>)</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw">clear3d</span>()</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">plot3d</span>(mousebrain)</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">### This takes a long time the first time you call this function per session</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">### .obj files are saved in a temporary folders</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">### You could save this brain locally, to use quickly in future.</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#### save(mousebrain,"YOUR_PATH/mouselight_brain.rda")</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">## What brain regions are on offer?</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(mousebrain<span class="op">$</span>neuropil_full_names)</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">## Or if we want more information, we can get it like this:</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">mbr =<span class="st"> </span><span class="kw">mouselight_brain_region_info</span>()</a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>(mouselight_brain_region_info)</a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">## Perhaps we want to plot just the amygdala?</span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">### To do this we can do</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23">amygdala.codes =<span class="st"> </span>mousebrain<span class="op">$</span>RegionList[<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"amygdala"</span>,mousebrain<span class="op">$</span>neuropil_full_names,</a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="dt">ignore.case =</span> <span class="ot">TRUE</span>)]</a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="kw">plot3d</span>(outline, <span class="dt">col =</span> <span class="st">"pink"</span>, <span class="dt">alpha =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="kw">plot3d</span>(<span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(mousebrain, amygdala.codes), <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb3-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">## So now we want some neurons</span></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">## What neurons data is available?</span></a>
+<a class="sourceLine" id="cb3-30" data-line-number="30">ndf=<span class="kw">mouselight_neuron_info</span>()</a>
+<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="co">#### How many tracings per neurons?</span></a>
+<a class="sourceLine" id="cb3-32" data-line-number="32"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(ndf<span class="op">$</span>neuron.id))</a>
+<a class="sourceLine" id="cb3-33" data-line-number="33"><span class="co">#### This is because many 'neurons' have a separate axon and dendrite skeleton </span></a>
+<a class="sourceLine" id="cb3-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb3-35" data-line-number="35"><span class="co">## We can download all of these neurons, and their meta-data</span></a>
+<a class="sourceLine" id="cb3-36" data-line-number="36"><span class="co">### Typically two tracings, and axon and a dendrite, per neuron</span></a>
+<a class="sourceLine" id="cb3-37" data-line-number="37">mlns =<span class="st"> </span><span class="kw">mouselight_read_neurons</span>(ndf<span class="op">$</span>tracing.id, <span class="dt">meta =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-38" data-line-number="38"></a>
+<a class="sourceLine" id="cb3-39" data-line-number="39"><span class="co">## Let's read in all the amygdalal neurons</span></a>
+<a class="sourceLine" id="cb3-40" data-line-number="40"><span class="co">### Since each </span></a>
+<a class="sourceLine" id="cb3-41" data-line-number="41">in.amyg =<span class="st"> </span><span class="kw">mouselight_nodes_in_region</span>(mlns, <span class="dt">brain.areas =</span> amygdala.codes, <span class="dt">labels =</span> <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb3-42" data-line-number="42">amyg.ids =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(in.amyg)[in.amyg<span class="op">&gt;</span><span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb3-43" data-line-number="43">amyg.neurons =<span class="st"> </span>mlns[amyg.ids]</a>
+<a class="sourceLine" id="cb3-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">## And plot!</span></a>
+<a class="sourceLine" id="cb3-46" data-line-number="46"><span class="kw">plot3d</span>(amyg.neurons)</a>
+<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">### Quite wide-ranging!</span></a></code></pre></div>
 <p><img src="reference/figures/mouselight_neurons.png"></p>
 </div>
 <div id="acknowledging-the-data-and-tools" class="section level2">
@@ -168,38 +177,39 @@ amyg.neurons =<span class="st"> </span>mlns[amyg.ids]
 <p><strong>Winnubst, Johan, Erhan Bas, Tiago A. Ferreira, Zhuhao Wu, Michael N. Economo, Patrick Edson, Ben J. Arthur, et al.</strong> 2019. <em>Reconstruction of 1,000 Projection Neurons Reveals New Cell Types and Organization of Long-Range Connectivity in the Mouse Brain.</em> bioRxiv. <a href="https://doi.org/10.1101/537233" class="uri">https://doi.org/10.1101/537233</a>.</p>
 <p><strong>Economo, Michael N., Nathan G. Clack, Luke D. Lavis, Charles R. Gerfen, Karel Svoboda, Eugene W. Myers, and Jayaram Chandrashekar.</strong> 2016. <em>A Platform for Brain-Wide Imaging and Reconstruction of Individual Neurons.</em> eLife 5 (January): e10566.</p>
 <p>This package was created by <a href="https://scholar.google.com/citations?user=BOVTiXIAAAAJ&amp;hl=en">Alexander Shakeel Bates</a> and <a href="https://en.wikipedia.org/wiki/Gregory_Jefferis">Dr. Gregory Jefferis</a>. You can cite this package as:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="dt">package =</span> <span class="st">"mouselightr"</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="dt">package =</span> <span class="st">"mouselightr"</span>)</a></code></pre></div>
 <p><strong>Bates AS, Jefferis GSXE</strong> (2019). <em>mouselightr: R client utilities for interacting with the MouseLight project.</em> <strong>R package</strong> version 0.1.0. <a href="https://github.com/natverse/mouselightr" class="uri">https://github.com/natverse/mouselightr</a></p>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/jefferis/nat.mouselight">https://​github.com/​jefferis/​nat.mouselight</a>
+<li>Browse source code at <br><a href="https://github.com/natverse/mouselightr">https://​github.com/​natverse/​mouselightr</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/jefferis/nat.mouselight/issues">https://​github.com/​jefferis/​nat.mouselight/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/natverse/mouselightr/issues">https://​github.com/​natverse/​mouselightr/​issues</a>
 </li>
 </ul>
 </div>
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
 </ul>
 </div>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Alexander Bates <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1195-0445" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
-<li>Gregory Jefferis <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-0587-9355" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li>Alexander Bates <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1195-0445" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
+<li>Gregory Jefferis <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-0587-9355" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 </ul>
 </div>
 
-      </div>
-
+  </div>
 </div>
 
 
@@ -208,12 +218,14 @@ amyg.neurons =<span class="st"> </span>mlns[amyg.ids]
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
