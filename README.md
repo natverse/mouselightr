@@ -14,7 +14,7 @@ Firstly, you will need R, R Studio and X Quartz as well as nat and its dependenc
 ``` r
 # install
 if (!require("remotes")) install.packages("remotes")
-devtools::install_github("natverse/mouselightr")
+remotes::install_github("natverse/mouselightr")
 
 # use 
 library(mouselightr)
