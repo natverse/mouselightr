@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get information about the MouseLight project's GraphQL API — mouselight_api • nat.mouselight</title>
+<title>Get information about the MouseLight project's GraphQL API — mouselight_api • mouselightr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -76,8 +76,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">nat.mouselight</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <a class="navbar-link" href="../index.html">mouselightr</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -154,11 +154,10 @@ Economo, Michael N., Nathan G. Clack, Luke D. Lavis, Charles R. Gerfen, Karel Sv
     <div class='dont-index'><p><code>mouselight_read_brain</code>, <code>mouselight_read_neurons</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>## First we need to download all of the neurons</span>
-<span class='fu'>mouselight_api</span>(<span class='no'>...</span>)
-
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='fu'>mouselight_api</span>()</div><div class='output co'>#&gt;  apiVersion  apiRelease neuronCount 
+#&gt;     "1.4.0"         "1"      "1002" </div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
