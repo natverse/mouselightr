@@ -1,7 +1,6 @@
-^nat\.mouselight\.Rproj$
+^mouselightr\.Rproj$
 ^\.Rproj\.user$
 ^.*\.har$
-
 ^README\.Rmd$
 ^\.travis\.yml$
 ^LICENSE\.md$

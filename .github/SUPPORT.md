@@ -1,13 +1,13 @@
-# Getting help with nat.mouselight
+# Getting help with mouselightr
 
-Thanks for using nat.mouselight. We're sorry if you're having trouble, but don't worry,
+Thanks for using mouselightr. We're sorry if you're having trouble, but don't worry,
 we're here to help! To get help as quickly as possible, please read the following:
 
 ## Search
 The first thing is to see if anyone has had your problem before:
 
 * Search the [nat-user google group](https://groups.google.com/forum/#!forum/nat-user).
-* Search GitHub for [_issues_ with the nat.mouselight package](https://github.com/natverse/nat.mouselight/issues).
+* Search GitHub for [_issues_ with the nat.mouselight package](https://github.com/natverse/mouselightr/issues).
 * Search GitHub for [issues across the whole natverse](https://github.com/search?q=user%3Anatverse&type=Issues) in case 
   the problem is with a related package. You can add your own terms to the search 
   in the search box in the top left of that page.
@@ -32,7 +32,7 @@ If it looks like a new problem then:
 * If you just have a question:
   please ask the [nat-user google group](https://groups.google.com/forum/#!forum/nat-user).
 * If you need to report a *new* bug:
-  please [file an issue](https://github.com/natverse/nat.mouselight/issues/new).
+  please [file an issue](https://github.com/natverse/mouselightr/issues/new).
 * If you're not sure:
   please just ask the [nat-user google group](https://groups.google.com/forum/#!forum/nat-user)! If your 
   problem _is_ a bug or a feature request, you can easily return here and 

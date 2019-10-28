@@ -26,7 +26,7 @@ FirstLower <- function(x) {
 
 # hidden
 mouselight_url <- function(...) {
-  baseurl=getOption("nat.mouselight.url", "http://ml-neuronbrowser.janelia.org")
+  baseurl=getOption("mouselightr.url", "http://ml-neuronbrowser.janelia.org")
   do.call(file.path, c(baseurl, list(...), fsep = "/"))
 }
 
