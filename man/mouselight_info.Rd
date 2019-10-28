@@ -16,10 +16,8 @@ a named vector of values
 See the API version and the number of neurons hosted by the project.
 }
 \examples{
-\dontrun{
-## First we need to download all of the neurons
-mouselight_api(...)
-
+\donttest{
+mouselight_api()
 }
 }
 \references{

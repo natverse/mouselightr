@@ -87,10 +87,8 @@ mouselight_brain_graph <- function(...){
 #' @return a named vector of values
 #' @seealso \code{\link{mouselight_read_brain}}, \code{\link{mouselight_read_neurons}}
 #' @examples
-#' \dontrun{
-#' ## First we need to download all of the neurons
-#' mouselight_api(...)
-#'
+#' \donttest{
+#' mouselight_api()
 #' }
 #' @inherit mouselight_read_brain references
 #' @export
