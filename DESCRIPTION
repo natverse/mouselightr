@@ -12,8 +12,8 @@ Authors@R:
              role = c("aut", "cre"),
              email = "jefferis@gmail.com",
              comment = c(ORCID = "0000-0002-0587-9355")))
-Description: MouseLight provide an interactive 3D browser at
-    http://ml-neuronbrowser.janelia.org/. This package allows neurons from
+Description: MouseLight provide an interactive 3D browser linked from
+    http://mouselight.janelia.org. This package allows neurons from
     that dataset to be downloaded and manipulated offline, providing a
     bridge to the nat (NeuroAnatomy Toolbox) suite of R packages.
 License: GPL-3
