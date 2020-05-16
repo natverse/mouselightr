@@ -78,7 +78,7 @@ mouselight_read_brain <- function(type = c("outline", "brain_areas"),
   for (url in 1:length(urls)){
     message = paste("downloading", df$safeName[url],".obj file", sep = " ")
     localfile = paste0(temp,"/",df$geometryFile[url])
-    if(!file.exists(localfile) | Force){
+    if(!file.exists(localfile) || Force){
       t = suppressWarnings (try( utils::download.file(urls[url], localfile, mode='wb', quiet = TRUE), silent = TRUE))
       if(inherits(t,'try-error')) {
         message = c("NOTE: unable to download ", df$safeName[url])
