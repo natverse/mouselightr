@@ -79,7 +79,7 @@ print(mousebrain$neuropil_full_names)
 
 ## Or if we want more information, we can get it like this:
 mbr = mouselight_brain_region_info()
-View(mouselight_brain_region_info)
+View(mbr)
 
 ## Perhaps we want to plot just the amygdala?
 ### To do this we can do
