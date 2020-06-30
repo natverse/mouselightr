@@ -6,8 +6,8 @@
 \alias{mouselightr-package}
 \title{mouselightr: Bridge HHMI Janelia MouseLight Database and nat R Package}
 \description{
-MouseLight provide an interactive 3D browser at
-    http://ml-neuronbrowser.janelia.org/. This package allows neurons from
+MouseLight provide an interactive 3D browser linked from
+    http://mouselight.janelia.org. This package allows neurons from
     that dataset to be downloaded and manipulated offline, providing a
     bridge to the nat (NeuroAnatomy Toolbox) suite of R packages.
 }
@@ -20,11 +20,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Gregory Jefferis \email{jefferis@gmail.com} (0000-0002-0587-9355)
+\strong{Maintainer}: Gregory Jefferis \email{jefferis@gmail.com} (\href{https://orcid.org/0000-0002-0587-9355}{ORCID})
 
 Authors:
 \itemize{
-  \item Alexander Bates \email{alexander.shakeel.bates@gmail.com} (0000-0002-1195-0445)
+  \item Alexander Bates \email{alexander.shakeel.bates@gmail.com} (\href{https://orcid.org/0000-0002-1195-0445}{ORCID})
 }
 
 }

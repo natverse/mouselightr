@@ -4,8 +4,11 @@
 \alias{mouselight_read_brain}
 \title{Read the brain mesh and its brain regions from the MouseLight project}
 \usage{
-mouselight_read_brain(type = c("outline", "brain_areas"),
-  progress = TRUE, Force = FALSE)
+mouselight_read_brain(
+  type = c("outline", "brain_areas"),
+  progress = TRUE,
+  Force = FALSE
+)
 }
 \arguments{
 \item{type}{whether just to retreive the outer brain mesh, or the brain constituent neuropils}

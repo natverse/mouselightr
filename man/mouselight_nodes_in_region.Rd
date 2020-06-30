@@ -8,11 +8,9 @@
 \usage{
 mouselight_nodes_in_region(x, brain.areas = NULL, labels = NULL)
 
-\method{mouselight_nodes_in_region}{neuron}(x, brain.areas = NULL,
-  labels = NULL)
+\method{mouselight_nodes_in_region}{neuron}(x, brain.areas = NULL, labels = NULL)
 
-\method{mouselight_nodes_in_region}{neuronlist}(x, brain.areas = NULL,
-  labels = NULL)
+\method{mouselight_nodes_in_region}{neuronlist}(x, brain.areas = NULL, labels = NULL)
 }
 \arguments{
 \item{x}{a \code{neuronlist} of tracings that have been read into R using \code{\link{mouselight_read_neurons}}, with \code{method = "native"}.}

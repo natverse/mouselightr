@@ -5,8 +5,12 @@
 \alias{mouselight_neuron_metadata}
 \title{Read one or more MouseLight tracings into a neuronlist}
 \usage{
-mouselight_read_neurons(tracing.ids, method = c("native", "swc"),
-  meta = TRUE, ...)
+mouselight_read_neurons(
+  tracing.ids,
+  method = c("native", "swc"),
+  meta = TRUE,
+  ...
+)
 
 mouselight_neuron_metadata(tracing.ids)
 }
